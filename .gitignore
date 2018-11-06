@@ -36,5 +36,7 @@ vignettes/*.pdf
 rsconnect/
 .Rproj.user
 
+# Wir möchten nicht, dass unsere erhobenen Daten öffentlich auf github hochgeladen werden
+
 data
 .DS_Store
