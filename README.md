@@ -5,7 +5,7 @@
 ## Susanne Gohr, Ines Güldenberg, Alexa Otte, Laura Schröder und Isabelle Wanders
 
 # Forschungsfrage
-## _Unter welchen Bedingungen wird Predictive Policing in der Bevölkerung akzeptiert?_
+## _Inwiefern beeinflussen Nutzerfaktoren die Akzeptanz von Predictive Policing in der Bevölkerung?_
 
 # Faktorenraum
 
