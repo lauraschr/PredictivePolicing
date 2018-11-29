@@ -1,0 +1,39 @@
+variable;text
+VAR1;Bitte geben Sie Ihr Geschlecht an. Response
+VAR2;Bitte geben Sie Ihr Alter in Jahren an. Open-Ended Response
+VAR3;Welchen höchsten Bildungsabschluss haben Sie (bisher) erlangt? Response_1
+VAR4;X13 Sonstiges (bitte angeben)
+VAR5;Bitte geben Sie die Tätigkeit an, der Sie momentan nachgehen. Response_2
+VAR6;Bitte geben Sie an, wo sich Ihr Wohnsitz befindet. Response_3
+VAR7;Bitte geben Sie an, wie sehr sie folgenden Fragen zustimmen. Bitte geben Sie an, wie sehr sie folgenden Fragen zustimmen. Ich kann ziemlich viele der technischen Probleme, mit denenich konfrontiert werde, allein lösen.
+VAR8;X17 Technische Geräte sind oft undurchschaubar und schwer zubeherrschen.
+VAR9;X18 Es macht mir richtig Spaß, ein technisches Problem zuknacken
+VAR10;X19 Weil ich mit bisherigen technischen Problemen gut zurechtgekommen bin, blicke ich auch künftigen technischenProblemen optimistisch entgegen.
+VAR11;X20 Ich fühle mich technischen Geräten gegenüber so hilflos, dassich die Finger von ihnen lasse.
+VAR12;X21 Auch wenn Widerstände auftreten, bearbeite ich eintechnisches Problem weiter.
+VAR13;X22 Wenn ich ein technisches Problem löse, so geschieht esmeistens durch Glück.
+VAR14;X23 Die meisten technischen Probleme sind so kompliziert, dass eswenig Sinn hat, sich mit ihnen auseinander zu setzen.
+VAR15;Wie ist Ihre Einstellung zur Privatsphäre? Ich mache mir wenig Sorgen über meine Privatsphäre.
+VAR16;X26 Ich habe kein Problem damit, Anderen Informationen über mich mitzuteilen, solange sie mir keinen Grund geben, dies nicht mehr zu tun.
+VAR17;X27 Ich habe ein Problem damit, fremden Personen persönliche Informationen mitzuteilen.
+VAR18;Wie ist Ihre Einstellung zum Datenschutz? Ich bin nicht sensibel, wenn es um die Handhabung meiner Daten geht.
+VAR19;X29 Da ich nichts zu verbergen habe, habe ich kein Problem damit, wenn Andere persönliche Daten von mir kennen.
+VAR20;X30 Ich empfinde es als wichtig, persönliche Informationen für mich zu behalten.
+VAR21;Welche der folgenden Technologien nutzen Sie? (Mehrfachantwort möglich) Social Media
+VAR22;Bitte beantworten Sie die folgenden Fragen zu Ihrem subjektiven Sicherheitsbedürfnis. Ich mache mir oft Sorgen, Opfer einer Straftat zu werden.
+VAR23;X91 Ich vermeide es, mich bei Dunkelheit an unbelebten Plätzen aufzuhalten.
+VAR24;X92 Ich fühle mich im öffentlichen Raum sicher.
+VAR25;X93 Ich wünsche mir eine höhere Polizeipräsenz in meiner Nachbarschaft.
+VAR26;X94 Ich wünsche mir ein schnelleres Agieren der Polizei bei Straftaten, wie Einbrüchen.
+VAR27;X95 Ich würde eine Einschränkung meiner Privatsphäre in Kauf nehmen, wenn dadurch mein Sicherheitsempfinden gesteigert werden könnte.
+VAR28;Bitte beantworten Sie die folgenden Fragen zur Nutzung personenbezogener Daten im Rahmen von Predictive Policing. Ich bin bereit, meine Daten für die Polizeiarbeit freizugeben.
+VAR29;X97 Ich habe Angst davor, dass meine Daten von Dritten missbraucht werden könnten.
+VAR30;X98 Ich habe kein Problem damit, dass Dritte meine Daten verwenden (z.B. für Marktforschungs- oder Werbezwecke).
+VAR31;X99 Die Kontrolle darüber, welche Daten von mir verwendet werden, ist mir sehr wichtig.
+VAR32;X100 Ich möchte stets Kenntnis darüber haben, welche Daten für welchen Zweck verwendet werden.
+VAR33;Bitte beantworten Sie die folgenden Fragen zur Dauer der Datenspeicherung. Ich habe kein Problem damit, dass meine Daten permanent gespeichert werden.
+VAR34;X102 Einer temporären Datenspeicherung (5-10 Jahre) gegenüber bin ich nicht abgeneigt.
+VAR35;X103 Ich möchte, dass meine Daten für maximal ein Jahr gespeichert werden.
+VAR36;Wie sieht die von Ihnen bevorzugte Art der Datenspeicherung aus? Ich wäre damit einverstanden, dass meine Daten anonymisiert verwendet werden, sodass keine Rückschlüsse auf meine Person möglich sind.
+VAR37;X105 Ich habe Angst davor, dass aufgrund der Daten Rückschlüsse auf meine Person möglich sind.
+VAR38;X106 Ich bin einer verschlüsselten Speicherung meiner Daten nicht abgeneigt.
