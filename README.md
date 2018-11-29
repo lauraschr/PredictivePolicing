@@ -10,7 +10,7 @@
 # Faktorenraum
 
 ![tooltip](images/Faktorenraum_PredictivePolicing.png)
-##Data Cleaning
+## Data Cleaning
 29.11.2018: Bereinigung des Datensatzes in R
 27.11.2018: Erfassung des Dummy-Datensatzes
 
