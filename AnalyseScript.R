@@ -1,5 +1,4 @@
 # Analyse Script
-print("Hier werden Pakete eingebunden")
 
 install.packages("tidyverse")
 install.packages("lubridate")
@@ -12,6 +11,9 @@ install.packages("devtools")
 library(devtools)
 devtools::install_github("HCIC/r-tools")
 
+library(lubridate)
+library(tidyverse)
+
 source("surveymonkey.R")
 
 
@@ -22,9 +24,9 @@ raw <- load_surveymonkey_csv(filename)
 
 
 # Data Cleaning ----
-print("Hier wird der Datensatz aufbereitet. Thema am 09.11.2018")
+#print("Hier wird der Datensatz aufbereitet. Thema am 09.11.2018")
 
-raw.short <- raw[,c(-1:-9, -24, -32:-89, -107:-127)]
+raw.short <- raw[ ,c(-1:-9, -24, -32:-89, -107:-127)]
 
 #View(raw.short)
 
@@ -46,6 +48,13 @@ scale.zustimmung <- c("Stimme gar nicht zu",
                       "Stimme zu",
                       "Stimme völlig zu")
 
+scale.zustimmung2 <- c("stimme gar nicht zu",
+                       "stimme nicht zu",
+                       "stimme eher nicht zu",
+                       "stimme eher zu",
+                       "stimme zu",
+                       "stimme völlig zu")
+
 # kut1-8 = = scale.zustimmung
 raw.short$kut1 <- ordered(raw.short$kut1, levels = scale.zustimmung)
 raw.short$kut2 <- ordered(raw.short$kut2, levels = scale.zustimmung)
@@ -56,34 +65,34 @@ raw.short$kut6 <- ordered(raw.short$kut6, levels = scale.zustimmung)
 raw.short$kut7 <- ordered(raw.short$kut7, levels = scale.zustimmung)
 raw.short$kut8 <- ordered(raw.short$kut8, levels = scale.zustimmung)
 
-raw.short$priv1 <- ordered(raw.short$priv1, levels = scale.zustimmung)
-raw.short$priv2 <- ordered(raw.short$priv2, levels = scale.zustimmung)
-raw.short$priv3 <- ordered(raw.short$priv3, levels = scale.zustimmung)
+raw.short$priv1 <- ordered(raw.short$priv1, levels = scale.zustimmung2)
+raw.short$priv2 <- ordered(raw.short$priv2, levels = scale.zustimmung2)
+raw.short$priv3 <- ordered(raw.short$priv3, levels = scale.zustimmung2)
 
-raw.short$dat1 <- ordered(raw.short$dat1, levels = scale.zustimmung)
-raw.short$dat2 <- ordered(raw.short$dat2, levels = scale.zustimmung)
-raw.short$dat3 <- ordered(raw.short$dat3, levels = scale.zustimmung)
+raw.short$dat1 <- ordered(raw.short$dat1, levels = scale.zustimmung2)
+raw.short$dat2 <- ordered(raw.short$dat2, levels = scale.zustimmung2)
+raw.short$dat3 <- ordered(raw.short$dat3, levels = scale.zustimmung2)
 
-raw.short$sich1 <- ordered(raw.short$sich1, levels = scale.zustimmung)
-raw.short$sich2 <- ordered(raw.short$sich2, levels = scale.zustimmung)
-raw.short$sich3 <- ordered(raw.short$sich3, levels = scale.zustimmung)
-raw.short$sich4 <- ordered(raw.short$sich4, levels = scale.zustimmung)
-raw.short$sich5 <- ordered(raw.short$sich5, levels = scale.zustimmung)
-raw.short$sich6 <- ordered(raw.short$sich6, levels = scale.zustimmung)
+raw.short$sich1 <- ordered(raw.short$sich1, levels = scale.zustimmung2)
+raw.short$sich2 <- ordered(raw.short$sich2, levels = scale.zustimmung2)
+raw.short$sich3 <- ordered(raw.short$sich3, levels = scale.zustimmung2)
+raw.short$sich4 <- ordered(raw.short$sich4, levels = scale.zustimmung2)
+raw.short$sich5 <- ordered(raw.short$sich5, levels = scale.zustimmung2)
+raw.short$sich6 <- ordered(raw.short$sich6, levels = scale.zustimmung2)
 
-raw.short$dperso1 <- ordered(raw.short$dperso1, levels = scale.zustimmung)
-raw.short$dperso2 <- ordered(raw.short$dperso2, levels = scale.zustimmung)
-raw.short$dperso3 <- ordered(raw.short$dperso3, levels = scale.zustimmung)
-raw.short$dperso4 <- ordered(raw.short$dperso4, levels = scale.zustimmung)
-raw.short$dperso5 <- ordered(raw.short$dperso5, levels = scale.zustimmung)
+raw.short$dperso1 <- ordered(raw.short$dperso1, levels = scale.zustimmung2)
+raw.short$dperso2 <- ordered(raw.short$dperso2, levels = scale.zustimmung2)
+raw.short$dperso3 <- ordered(raw.short$dperso3, levels = scale.zustimmung2)
+raw.short$dperso4 <- ordered(raw.short$dperso4, levels = scale.zustimmung2)
+raw.short$dperso5 <- ordered(raw.short$dperso5, levels = scale.zustimmung2)
 
-raw.short$dsave1 <- ordered(raw.short$dsave1, levels = scale.zustimmung)
-raw.short$dsave2<- ordered(raw.short$dsave2, levels = scale.zustimmung)
-raw.short$dsave3 <- ordered(raw.short$dsave3, levels = scale.zustimmung)
+raw.short$dsave1 <- ordered(raw.short$dsave1, levels = scale.zustimmung2)
+raw.short$dsave2<- ordered(raw.short$dsave2, levels = scale.zustimmung2)
+raw.short$dsave3 <- ordered(raw.short$dsave3, levels = scale.zustimmung2)
 
-raw.short$dtype1 <- ordered(raw.short$dtype1, levels = scale.zustimmung)
-raw.short$dtype2 <- ordered(raw.short$dtype2, levels = scale.zustimmung)
-raw.short$dtype3 <- ordered(raw.short$dtype3, levels = scale.zustimmung)
+raw.short$dtype1 <- ordered(raw.short$dtype1, levels = scale.zustimmung2)
+raw.short$dtype2 <- ordered(raw.short$dtype2, levels = scale.zustimmung2)
+raw.short$dtype3 <- ordered(raw.short$dtype3, levels = scale.zustimmung2)
 
 #raw.short
 
@@ -117,7 +126,10 @@ data <- data %>%
   select(-starts_with("dsave", ignore.case = F)) %>%
   select(-starts_with("dtype", ignore.case = F))
 
-View(data)
+data
+raw.short
+
+
  
 saveRDS(data, "data/smart_identification.rds")
 
