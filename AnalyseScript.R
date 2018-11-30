@@ -119,7 +119,7 @@ data <- data %>%
 
 View(data)
  
-#saveRDS(data, "data/smart_identification.rds")
+saveRDS(data, "data/smart_identification.rds")
 
 
 # Analyse ----
