@@ -41,6 +41,7 @@ names(raw.short) <- codebook$variable
 # Schritt3: Variablen den richtigen Typen zuordnen
 raw.short$gender <- as.factor(raw.short$gender)
 
+
 scale.zustimmung <- c("Stimme gar nicht zu",
                       "Stimme nicht zu",
                       "Stimme eher nicht zu",
@@ -129,6 +130,7 @@ data <- data %>%
 data
 raw.short
 
+##### FEEDBACK: Sieht insgesamt schon ganz gut aus, ein paar Kleinigkeiten fehlen aber noch. Rufen Sie an dieser Stelle mal str(data) auf und schauen sich den Inhalt an. edu und residence sind z.B. auch ordinale Variablen, job und socme Faktoren.----
 
  
 saveRDS(data, "data/smart_identification.rds")
