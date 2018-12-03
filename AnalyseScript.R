@@ -1,4 +1,4 @@
-# Analyse Script
+# Analyse Script ----
 
 install.packages("tidyverse")
 install.packages("lubridate")
@@ -17,7 +17,7 @@ library(tidyverse)
 source("surveymonkey.R")
 
 
-# Datei laden
+# Datei laden ----
 
 filename <- "data/smart_identification.csv"
 raw <- load_surveymonkey_csv(filename)
@@ -40,6 +40,9 @@ names(raw.short) <- codebook$variable
 
 # Schritt3: Variablen den richtigen Typen zuordnen
 raw.short$gender <- as.factor(raw.short$gender)
+raw.short$job <- as.factor(raw.short$job)
+raw.short$socme <- as.factor(raw.short$socme)
+
 
 
 scale.zustimmung <- c("Stimme gar nicht zu",
@@ -55,6 +58,8 @@ scale.zustimmung2 <- c("stimme gar nicht zu",
                        "stimme eher zu",
                        "stimme zu",
                        "stimme völlig zu")
+
+
 
 # kut1-8 = = scale.zustimmung
 raw.short$kut1 <- ordered(raw.short$kut1, levels = scale.zustimmung)
@@ -95,7 +100,6 @@ raw.short$dtype1 <- ordered(raw.short$dtype1, levels = scale.zustimmung2)
 raw.short$dtype2 <- ordered(raw.short$dtype2, levels = scale.zustimmung2)
 raw.short$dtype3 <- ordered(raw.short$dtype3, levels = scale.zustimmung2)
 
-#raw.short
 
 #### Skalenbildung ----
 library(psych)
@@ -131,7 +135,7 @@ data
 raw.short
 
 ##### FEEDBACK: Sieht insgesamt schon ganz gut aus, ein paar Kleinigkeiten fehlen aber noch. Rufen Sie an dieser Stelle mal str(data) auf und schauen sich den Inhalt an. edu und residence sind z.B. auch ordinale Variablen, job und socme Faktoren.----
-
+#str(data)
  
 saveRDS(data, "data/smart_identification.rds")
 
