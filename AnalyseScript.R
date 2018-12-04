@@ -165,6 +165,32 @@ saveRDS(data, "data/smart_identification.rds")
 # Analyse ----
 #print("Hier werden später statistische Analysen durchgeführt. Thema ab dem 16.11.2018")
 
+# T-Test für unverbundene Stichproben ----
+
+
+# Hypothese 1: Es gibt einen Unterscheid bei der Freigabe von personenbezogenen Daten bei Männern und Frauen
+
+#View(data)
+# t.test( filter(data, gender == "Männlich")$DPERSO,
+        #filter(data, gender == "Weiblich")$DPERSO )
+
+# Ergebnis: 
+
+# Hypothese 2: Es gibt einen Unterschied hinsichtlich des empfundenen Sicherheitsempfindens bei Männern und Frauen.
+
+#t.test (filter(data, gender == "Männlich")$SICH,
+        #filter(data, gender == "Weiblich")$SICH)
+
+# Ergebnis:
+
+# Hypothese 3: Es gibt einen Unterschied hinsichtlich der Einstellung zur Dauer der Datenspeicherung bei Menschen mit höherem und niedrigerem Bildungsabschluss.
+
+#t.test( filter(data, edu == "Hauptschulabschluss")$DSAVE,
+        #filter(data, edu == "Studienabschluss (Bachelor, Master, Magister, Diplom, Promotion etc.")$DSAVE) 
+
+#Ergebnis: 
+
+
 # Graphik erstellung ---- 
 #print("Hier werden später Grafiken erstellt. Thema ab dem 16.11.2018")
 
