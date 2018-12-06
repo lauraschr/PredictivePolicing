@@ -50,6 +50,7 @@ Definition: "Die Wahrscheinlichkeit des beobachteten Ergebnisses, wenn die Nullh
 - Der P-Wert hilft Ergebnisse von statistischen Tests zu interpretieren.
 - Überschreitet der P-Wert 0,05, kann die Nullhypothese nicht verworfen werden.
 - Problem: Häufige Überbewertung des P-Werts
+
            1. Statistisch signifikantes Ergebnis kann irrelevant sein. Es werden Aussagen über die Daten getroffen und               nicht über den Wahrheitsgehalt der Hypothesen.
            2. Man braucht mehrere Studien um Aussagen zu treffen. Ein signifikanter P-Wert kann als Ausgangspunkt für               weitere Forschung dienen. Daher ist es wichtig, den P-Wert zu betrachten.
 - Quellen: http://www.perfendo.org/docs/BayesProbability/twelvePvaluemisconceptions.pdf
