@@ -10,8 +10,6 @@
 ## Faktorenraum
 
 ![tooltip](images/Faktorenraum_PredictivePolicing.png)
-## Unterschiedshypothesen
-
 
 
 ## Unterschiedshypothesen
