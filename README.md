@@ -26,7 +26,7 @@ Stand: 13.12.2018
 
 
 
-## Hinweise zum Umgang mit P-Values
+## Hinweise zum Umgang mit P-Werten
 
 Definition: "Die Wahrscheinlichkeit des beobachteten Ergebnisses, wenn die Nullhypothese stimmt."
 - Der P-Wert hilft Ergebnisse von statistischen Tests zu interpretieren.
