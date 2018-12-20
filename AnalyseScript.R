@@ -195,3 +195,23 @@ saveRDS(data, "data/smart_identification.rds")
 #print("Hier werden später Grafiken erstellt. Thema ab dem 16.11.2018")
 
 
+
+### Zusammenhangshypothese 1. Alter und subjektives Sicherheitsempfinden  
+## H1: Das subjektive Sicherheitsempfinden hängt ab vom Alter der Probanden. 
+## H0: Es gibt keinen Zusammenhang zwischen dem subjektiven Sicherheitsempfinden und dem Alter der Probanden.
+
+### Zusammenhangshypothese 2. KUT und Bereitschaft zur langfristigen Datenspeicherung
+## H1: Es besteht ein Zusammenhang zwischen KUT und der Bereitschaft zur langfristigen Datenspeicherung.
+## H0: Es besteht kein Zusammenhang zwischen KUT und der Bereitschaft zur langfristigen Datenspeicherung.
+
+### Zusammenhangshypothese 3. Schulabschluss und Bereitschaft persönliche Daten preiszugeben
+## H1: Es besteht ein Zusammenhang zwischen dem Schulabschluss und der Bereitschaft persönliche Daten preiszugeben. 
+## H0: Es gibt keinen Zusammenhang zwischen dem Schulabschluss und der Bereiteschaft persönliche Daten preiszugeben. 
+
+cor.test(data=df_multi, ~ age+sich)
+
+cor.test(data=df_multi, ~ kut+dsave)
+
+cor.test(data=df_multi,
+         ~education+round(dperso), method="kendall") 
+

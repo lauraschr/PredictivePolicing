@@ -23,14 +23,6 @@ Stand: 13.12.2018
 
 
 
-## Nullhypothesen
-Stand: 13.12.2018 
-
-1. Es gibt keinen geschlechtspezifischen Unterschied bei der Freigabe von personenbezogenen Daten.
-
-2. Das subjektive Sicherheitsempfinden ist bei kontrolliertem Alterseinfluss unabhänhig vom Geschlecht.
-
-3. Es gibt keinen Unterschied hinsichtlich der Einstellung zur Dauer der Datenspeicherung bei Männern und Frauen.
 
 
 
