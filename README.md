@@ -24,8 +24,6 @@ Stand: 13.12.2018
 
 
 
-
-
 ## Hinweise zum Umgang mit P-Werten
 
 Definition: "Die Wahrscheinlichkeit des beobachteten Ergebnisses, wenn die Nullhypothese stimmt."
@@ -46,6 +44,10 @@ Definition: "Die Wahrscheinlichkeit des beobachteten Ergebnisses, wenn die Nullh
 - 27.11.2018: Erfassung des Dummy-Datensatzes
 
 ## _Frühere Versionen_
+Am 20.12.2018 wurde diese Version aus folgenden Gründen angepasst:
+- Einarbeitung Feedback zu P-Values
+- Einarbeitung Nullhypothesen ins AnalyseScript anstatt ReadMe
+
 Am 13.12.2018 wurde diese Version aus folgenden Gründen angepasst:
 - Testung der Unterschiedshypothesen auf t-Test und ANCOVA
 

@@ -162,28 +162,28 @@ raw.short
 saveRDS(data, "data/smart_identification.rds")
 
 
-# Analyse ----
-#print("Hier werden später statistische Analysen durchgeführt. Thema ab dem 16.11.2018")
 
-# T-Test für unverbundene Stichproben ----
+## Unterschiedshypothesen ----
+# Hypothese 1: Es gibt einen geschlechtspezifischen Unterschied bei der Freigabe von personenbezogenen Daten.
+# H0: Es gibt keinen geschlechtsspezifischen Unterschied bei der Freigabe von personenbezogenen Daten.
 
-
-# Hypothese 1: Es gibt einen Unterscheid bei der Freigabe von personenbezogenen Daten bei Männern und Frauen
-
-#View(data)
 # t.test( filter(data, gender == "Männlich")$DPERSO,
         #filter(data, gender == "Weiblich")$DPERSO )
 
 # Ergebnis: 
 
-# Hypothese 2: Es gibt einen Unterschied hinsichtlich des empfundenen Sicherheitsempfindens bei Männern und Frauen.
+
+# Hypothese 2: Das subjektive Sicherheitsempfinden ist bei kontrolliertem Alterseinfluss abhängig vom Geschlecht.
+# H0: Das subjektive Sicherheitsempfinden ist bei kontrolliertem Alterseinfluss nicht abhängig vom Geschlecht.
 
 #t.test (filter(data, gender == "Männlich")$SICH,
         #filter(data, gender == "Weiblich")$SICH)
+## ANCOVA Test noch einfügen
 
 # Ergebnis:
 
 # Hypothese 3: Es gibt einen Unterschied hinsichtlich der Einstellung zur Dauer der Datenspeicherung bei Menschen mit höherem und niedrigerem Bildungsabschluss.
+# H0: Es gibt keinen Unterschied hinsichtlich der Einstellung zur Dauer der Datenspeicherung bei Menschen mit höherem und niedrigerem Bildungsabschluss.
 
 #t.test( filter(data, edu == "Hauptschulabschluss")$DSAVE,
         #filter(data, edu == "Studienabschluss (Bachelor, Master, Magister, Diplom, Promotion etc.")$DSAVE) 
@@ -191,10 +191,8 @@ saveRDS(data, "data/smart_identification.rds")
 #Ergebnis: 
 
 
-# Graphik erstellung ---- 
-#print("Hier werden später Grafiken erstellt. Thema ab dem 16.11.2018")
 
-
+# Zusammenhangshypothesen ----
 
 ### Zusammenhangshypothese 1. Alter und subjektives Sicherheitsempfinden  
 ## H1: Das subjektive Sicherheitsempfinden hängt ab vom Alter der Probanden. 
