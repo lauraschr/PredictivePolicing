@@ -194,15 +194,15 @@ saveRDS(data, "data/smart_identification.rds")
 
 # Zusammenhangshypothesen ----
 
-### Zusammenhangshypothese 1. Alter und subjektives Sicherheitsempfinden  
+### Zusammenhangshypothese 1: Alter und subjektives Sicherheitsempfinden  
 ## H1: Das subjektive Sicherheitsempfinden hängt ab vom Alter der Probanden. 
 ## H0: Es gibt keinen Zusammenhang zwischen dem subjektiven Sicherheitsempfinden und dem Alter der Probanden.
 
-### Zusammenhangshypothese 2. KUT und Bereitschaft zur langfristigen Datenspeicherung
+### Zusammenhangshypothese 2: KUT und Bereitschaft zur langfristigen Datenspeicherung
 ## H1: Es besteht ein Zusammenhang zwischen KUT und der Bereitschaft zur langfristigen Datenspeicherung.
 ## H0: Es besteht kein Zusammenhang zwischen KUT und der Bereitschaft zur langfristigen Datenspeicherung.
 
-### Zusammenhangshypothese 3. Schulabschluss und Bereitschaft persönliche Daten preiszugeben
+### Zusammenhangshypothese 3: Schulabschluss und Bereitschaft persönliche Daten preiszugeben
 ## H1: Es besteht ein Zusammenhang zwischen dem Schulabschluss und der Bereitschaft persönliche Daten preiszugeben. 
 ## H0: Es gibt keinen Zusammenhang zwischen dem Schulabschluss und der Bereiteschaft persönliche Daten preiszugeben. 
 
