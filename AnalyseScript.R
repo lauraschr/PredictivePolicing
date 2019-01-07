@@ -171,7 +171,7 @@ saveRDS(data, "data/smart_identification.rds")
         #filter(data, gender == "Weiblich")$DPERSO )
 
 # Ergebnis: 
-
+## FEEDBACK: Super! Das funktioniert so. Tipp für später: Da die Hypothese ungerichtet ist, ist es besonders wichtig, dass Sie die Mittelwerte für die einzelnen Gruppen nicht vergessen.
 
 # Hypothese 2: Das subjektive Sicherheitsempfinden ist bei kontrolliertem Alterseinfluss abhängig vom Geschlecht.
 # H0: Das subjektive Sicherheitsempfinden ist bei kontrolliertem Alterseinfluss nicht abhängig vom Geschlecht.
@@ -179,6 +179,7 @@ saveRDS(data, "data/smart_identification.rds")
 #t.test (filter(data, gender == "Männlich")$SICH,
         #filter(data, gender == "Weiblich")$SICH)
 ## ANCOVA Test noch einfügen
+## FEEDBACK: Wie sie selbst schon richtig kommentiert haben, ist hier die ANCOVA die richtige Methode. 
 
 # Ergebnis:
 
@@ -189,8 +190,12 @@ saveRDS(data, "data/smart_identification.rds")
         #filter(data, edu == "Studienabschluss (Bachelor, Master, Magister, Diplom, Promotion etc.")$DSAVE) 
 
 #Ergebnis: 
-
-
+## FEEDBACK: Die zweite Zeile funktioniert natürlich so nicht, da das keine Antwortmöglichkeit darstellt.
+# Sie können mehrere logische Aussagen mit logischem oder verknüpfen: ||  <- das ist das Zeichen für logisches Oder.
+# z.B. filter(data, edu == "Hauptschulabschluss" || edu == "Realschulabschluss")
+# Grundsätzlich ist die Gruppeneinteilung in dieser Hypothese aber recht problematisch. Warum verläuft die Grenze ausgerechnet am Hauptschulabschluss?
+# Besser wäre es, hier eine Zusammenhangshypothese zu machen (Variante 1): Die Einstellung zur usw. hängt mit dem Schulabschluss zusammen.
+# Oder Sie regeln das mit Median-Split (Variante 2): Die gebildetere Hälfte der Stichprobe hat eine höhere xyz als die andere Hälfte.
 
 # Zusammenhangshypothesen ----
 
@@ -212,4 +217,9 @@ cor.test(data=df_multi, ~ kut+dsave)
 
 cor.test(data=df_multi,
          ~education+round(dperso), method="kendall") 
+
+## Feedback: Ihr Datensatz heißt gar nicht df_multi ;-)
+# Ob bei dem richtigen Datensatz so funktioniert weiß ich nicht, es kann nämlich sein dass die Methode cor.test() zwischen Groß- und Kleinschreibung unterscheidet. Lieber genau so schreiben wie in den Daten: Groß. 
+# Warum wird bei H3 die round()-Methode benutzt? Und warum kendall-tau? Das muss beides nicht falsch sein, aber mir ist gerade nicht klar, warum Sie sich entschieden haben das so zu machen. 
+
 
