@@ -13,16 +13,24 @@
 
 
 ## Unterschiedshypothesen
-Stand: 13.12.2018
+Stand: 08.01.2019
 
 1. Es gibt einen geschlechtspezifischen Unterschied bei der Freigabe von personenbezogenen Daten.
 
-2. Das subjektive Sicherheitsempfinden ist bei kontrolliertem Alterseinfluss abhängig vom Geschlecht. 
+2. Das subjektive Sicherheitsempfinden ist bei kontrolliertem Alterseinfluss abhängig vom Geschlecht.
 
-3. Es gibt einen Unterschied hinsichtlich der Einstellung zur Dauer der Datenspeicherung bei Menschen mit höherem und niedrigerem Bildungsabschluss.
+3. Es gibt einen geschlechtsspezifischen Unterschied hinsichtlich der Einstellung zur Dauer der Datenspeicherung unter dem kontrollierten Einfluss des KUT.
 
+## Zusammenhangshypothesen
+Stand: 08.01.2019
 
+1. Das subjektive Sicherheitsempfinden hängt ab vom Alter der Probanden
 
+2. Es besteht ein Zusammenhang zwischen KUT und der Bereitschaft zur langfristigen Datenspeicherung.
+
+3. Es besteht ein Zusammenhang zwischen der Einstellung zur Privatsphäre und der Bereitschaft persönliche Daten preiszugeben.
+
+Ergebnisse: Bei keinen der drei Zusammenhangshypothesen gab es einen signifikanten Unterschied. 
 
 ## Hinweise zum Umgang mit P-Werten
 
@@ -40,6 +48,7 @@ Definition: "Die Wahrscheinlichkeit des beobachteten Ergebnisses, wenn die Nullh
            https://www.youtube.com/watch?v=Gu_PGbINiXw
 
 ## Data Cleaning
+- 08.01.2019: neuen Datensatz für das Data Cleaning hochgeladen
 - 29.11.2018: Bereinigung des Datensatzes in R
 - 27.11.2018: Erfassung des Dummy-Datensatzes
 

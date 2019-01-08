@@ -6,6 +6,7 @@
 #install.packages("esquisse")
 #install.packages("ggthemes")
 #install.packages("ggplot2")
+install.packages("jmv")
 
 #install.packages("devtools")
 library(devtools)
@@ -19,7 +20,7 @@ source("surveymonkey.R")
 
 # Datei laden ----
 
-filename <- "data/smart_identification.csv"
+filename <- "data/SmartIdentification.csv"
 raw <- load_surveymonkey_csv(filename)
 
 
@@ -167,29 +168,30 @@ saveRDS(data, "data/smart_identification.rds")
 # Hypothese 1: Es gibt einen geschlechtspezifischen Unterschied bei der Freigabe von personenbezogenen Daten.
 # H0: Es gibt keinen geschlechtsspezifischen Unterschied bei der Freigabe von personenbezogenen Daten.
 
-# t.test( filter(data, gender == "Männlich")$DPERSO,
-        #filter(data, gender == "Weiblich")$DPERSO )
+t.test( filter(data, gender == "Männlich")$DPERSO,
+        filter(data, gender == "Weiblich")$DPERSO )
 
-# Ergebnis: 
+# Ergebnis: Es gibt keinen signifikanten, geschlechtsspezifischen Unterschied bei der Freigabe von personenbezogenen Daten (t(198.92) = 0.23, p = 0.8195). Die Nullhypothese H0 muss angenommen werden.
 ## FEEDBACK: Super! Das funktioniert so. Tipp für später: Da die Hypothese ungerichtet ist, ist es besonders wichtig, dass Sie die Mittelwerte für die einzelnen Gruppen nicht vergessen.
 
 # Hypothese 2: Das subjektive Sicherheitsempfinden ist bei kontrolliertem Alterseinfluss abhängig vom Geschlecht.
 # H0: Das subjektive Sicherheitsempfinden ist bei kontrolliertem Alterseinfluss nicht abhängig vom Geschlecht.
 
-#t.test (filter(data, gender == "Männlich")$SICH,
-        #filter(data, gender == "Weiblich")$SICH)
-## ANCOVA Test noch einfügen
+library(jmv)
+ancova(data, dep = "SICH", factors = c("gender"), covs = "age")
+
+#Ergegbnis: Das Geschlecht hat einen signifikanten Einfluss auf das subjektive Sicherheitsempfinden, das Alter allerdings nicht.
+# Richtige Formulierung?
 ## FEEDBACK: Wie sie selbst schon richtig kommentiert haben, ist hier die ANCOVA die richtige Methode. 
 
-# Ergebnis:
 
-# Hypothese 3: Es gibt einen Unterschied hinsichtlich der Einstellung zur Dauer der Datenspeicherung bei Menschen mit höherem und niedrigerem Bildungsabschluss.
-# H0: Es gibt keinen Unterschied hinsichtlich der Einstellung zur Dauer der Datenspeicherung bei Menschen mit höherem und niedrigerem Bildungsabschluss.
 
-#t.test( filter(data, edu == "Hauptschulabschluss")$DSAVE,
-        #filter(data, edu == "Studienabschluss (Bachelor, Master, Magister, Diplom, Promotion etc.")$DSAVE) 
+# Hypothese 3: Es gibt einen geschlechtsspezifischen Unterschied hinsichtlich der Einstellung zur Dauer der Datenspeicherung unter dem kontrollierten Einfluss des KUT.
+# H0: Es gibt keinen geschlechtsspezifischen Unterschied hinsichtlich der Einstellung zur Dauer der Datenspeicherung unter dem kontrollierten Einfluss des KUT.
 
-#Ergebnis: 
+ancova(data, dep = "DSAVE", factors = c("gender"), covs = "KUT")
+
+#Ergebnis: Es gibt keinen signifikanten Unterschied. Die Nullhypothese wird beibehalten. 
 ## FEEDBACK: Die zweite Zeile funktioniert natürlich so nicht, da das keine Antwortmöglichkeit darstellt.
 # Sie können mehrere logische Aussagen mit logischem oder verknüpfen: ||  <- das ist das Zeichen für logisches Oder.
 # z.B. filter(data, edu == "Hauptschulabschluss" || edu == "Realschulabschluss")
@@ -203,20 +205,25 @@ saveRDS(data, "data/smart_identification.rds")
 ## H1: Das subjektive Sicherheitsempfinden hängt ab vom Alter der Probanden. 
 ## H0: Es gibt keinen Zusammenhang zwischen dem subjektiven Sicherheitsempfinden und dem Alter der Probanden.
 
+cor.test(data = data, ~ age+SICH)
+
+#Ergebnis: Es gibt keinen signifikanten Zusammenhang zwischen dem subjektiven Sicherheitsempfinden und dem Alter der Probanden. H0 wird beibehalten.
+
 ### Zusammenhangshypothese 2: KUT und Bereitschaft zur langfristigen Datenspeicherung
 ## H1: Es besteht ein Zusammenhang zwischen KUT und der Bereitschaft zur langfristigen Datenspeicherung.
 ## H0: Es besteht kein Zusammenhang zwischen KUT und der Bereitschaft zur langfristigen Datenspeicherung.
 
-### Zusammenhangshypothese 3: Schulabschluss und Bereitschaft persönliche Daten preiszugeben
-## H1: Es besteht ein Zusammenhang zwischen dem Schulabschluss und der Bereitschaft persönliche Daten preiszugeben. 
-## H0: Es gibt keinen Zusammenhang zwischen dem Schulabschluss und der Bereiteschaft persönliche Daten preiszugeben. 
+cor.test(data= data, ~ KUT+DSAVE)
 
-cor.test(data=df_multi, ~ age+sich)
+#Ergebnis: Es gibt keinen Zusammenhang zwischen dem KUT und der Bereitschaft zur langfristigen Datenspeicherung. H0 wird beibehalten.
 
-cor.test(data=df_multi, ~ kut+dsave)
+### Zusammenhangshypothese 3: Einstellung zur Privatsphäre und Bereitschaft persönliche Daten preiszugeben
+## H1: Es besteht ein Zusammenhang zwischen der Einstellung zur Privatsphäre und der Bereitschaft persönliche Daten preiszugeben. 
+## H0: Es gibt keinen Zusammenhang zwischen der Einstellung zur Privatsphäre und der Bereiteschaft persönliche Daten preiszugeben. 
 
-cor.test(data=df_multi,
-         ~education+round(dperso), method="kendall") 
+cor.test(data = data, ~PRIV+DPERSO)
+
+# Ergebnis: Es gibt keinen Zusammenhang zwischen der Einstellung zur Privatsphäre und der Bereiteschaft persönliche Daten preiszugeben. H0 wird beibehalten.
 
 ## Feedback: Ihr Datensatz heißt gar nicht df_multi ;-)
 # Ob bei dem richtigen Datensatz so funktioniert weiß ich nicht, es kann nämlich sein dass die Methode cor.test() zwischen Groß- und Kleinschreibung unterscheidet. Lieber genau so schreiben wie in den Daten: Groß. 
