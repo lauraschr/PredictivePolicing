@@ -1,12 +1,12 @@
 # Analyse Script ----
 
-#install.packages("tidyverse")
-#install.packages("lubridate")
+install.packages("tidyverse")
+install.packages("lubridate")
 #install.packages("psych")
 #install.packages("esquisse")
 #install.packages("ggthemes")
 #install.packages("ggplot2")
-install.packages("jmv")
+#install.packages("jmv")
 
 #install.packages("devtools")
 library(devtools)
@@ -130,9 +130,9 @@ keyslist <- list (KUT= c("kut1", "-kut2", "kut3", "kut4", "-kut5", "kut6", "-kut
                   DSAVE = c("dsave1", "dsave2", "-dsave3"),
                   DTYPE = c("dtype1", "-dtype2", "dtype3"))
 
-keyslist.edu <- list(EDU = c("edu"))
+#keyslist.edu <- list(EDU = c("edu"))
 
-keyslist.residence <- list(RESIDENCE = c("residence"))
+#keyslist.residence <- list(RESIDENCE = c("residence"))
                   
         
                   
@@ -140,11 +140,12 @@ keyslist.residence <- list(RESIDENCE = c("residence"))
 #print("Hier werden später Skalen berechnet. Thema am 09.11.2018")
 
 scores <- scoreItems(keyslist, raw.short, missing = TRUE, min = 1, max = 6)
-scores.edu <- scoreItems (keyslist.edu, raw.short, missing = TRUE, min = 1, max = 5)
-scores.residence <- scoreItems (keyslist.residence, raw.short, missing = TRUE, min = 1, max = 4)
+#scores.edu <- scoreItems (keyslist.edu, raw.short, missing = TRUE, min = 1, max = 5)
+#scores.residence <- scoreItems (keyslist.residence, raw.short, missing = TRUE, min = 1, max = 4)
 
 
 data <- bind_cols(raw.short, as.tibble(scores$scores))
+data <- data %>% filter (age != "99")
 data <- data %>% 
   select(-starts_with("kut", ignore.case = F)) %>% 
   select(-starts_with("priv", ignore.case = F)) %>%
@@ -153,6 +154,8 @@ data <- data %>%
   select(-starts_with("dperso", ignore.case = F)) %>%
   select(-starts_with("dsave", ignore.case = F)) %>%
   select(-starts_with("dtype", ignore.case = F))
+
+
 
 data
 raw.short
