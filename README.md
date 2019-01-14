@@ -1,5 +1,5 @@
 ## PredictivePolicing
-### In diesem Forschungsprojekt soll die Akzeptanz von Predictive Policing untersucht werden.
+### In diesem Forschungsprojekt soll die Akzeptanz von Predictive Policing in der Bevölkerung untersucht werden.
 
 ## Teammitglieder
 ### Susanne Gohr, Ines Güldenberg, Alexa Otte, Laura Schröder und Isabelle Wanders
@@ -30,7 +30,7 @@ Stand: 08.01.2019
 
 3. Es besteht ein Zusammenhang zwischen der Einstellung zur Privatsphäre und der Bereitschaft persönliche Daten preiszugeben.
 
-Ergebnisse: Bei keinen der drei Zusammenhangshypothesen gab es einen signifikanten Unterschied. 
+Ergebnis: Bei keinen der drei Zusammenhangshypothesen gab es einen signifikanten Unterschied. 
 
 ## Hinweise zum Umgang mit P-Werten
 
@@ -48,14 +48,19 @@ Definition: "Die Wahrscheinlichkeit des beobachteten Ergebnisses, wenn die Nullh
            https://www.youtube.com/watch?v=Gu_PGbINiXw
 
 ## Data Cleaning
-- 08.01.2019: neuen Datensatz für das Data Cleaning hochgeladen
+- 08.01.2019: vollständigen Datensatz (SmartIdentification.cvs) für das Data Cleaning hochgeladen
 - 29.11.2018: Bereinigung des Datensatzes in R
 - 27.11.2018: Erfassung des Dummy-Datensatzes
 
 ## _Frühere Versionen_
+Am 08.01.2019 wurde diese Version aus folgenden Gründen angepasst:
+- Einarbeitung des Feedbacks zu den Hypothesen
+- Testung der Hypothesen
+
 Am 20.12.2018 wurde diese Version aus folgenden Gründen angepasst:
 - Einarbeitung Feedback zu P-Values
-- Einarbeitung Nullhypothesen ins AnalyseScript anstatt ReadMe
+- Einarbeitung Nullhypothesen ins AnalyseScript
+- Einarbeitung der Zusammenhangshypothesen
 
 Am 13.12.2018 wurde diese Version aus folgenden Gründen angepasst:
 - Testung der Unterschiedshypothesen auf t-Test und ANCOVA
