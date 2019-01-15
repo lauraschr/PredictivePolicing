@@ -155,6 +155,7 @@ data <- data %>%
   select(-starts_with("dsave", ignore.case = F)) %>%
   select(-starts_with("dtype", ignore.case = F))
 
+library(ggplot2)
 
 
 data
@@ -174,6 +175,39 @@ saveRDS(data, "data/smart_identification.rds")
 t.test( filter(data, gender == "Männlich")$DPERSO,
         filter(data, gender == "Weiblich")$DPERSO )
 
+# Boxplot Unterschiedshypothese 1
+data %>% 
+  filter(gender != "Keine Angabe") %>%  
+ggplot() +
+  aes(x = gender, y = DPERSO) +
+  geom_boxplot(fill = "#ffffff") +
+  labs(title = "Geschlechtsspezifischer Unterschied bei der Freigabe personenbezogener Daten",
+       x = "Geschlecht",
+       y = "Freigabe personenbezogener Daten",
+       caption = "n = 273, Punkte zeigen Ausreißer",
+       subtitle = "Boxplot des Geschlecht nach Freigabe personenbezogener Daten") +
+  theme_gray()
+
+ggsave("dperso_histogramm.pdf", width = 7, height = 4)
+
+#Likert Skala Unterschiedshypothese 1
+raw.short$dperso1 <- factor(raw.short$dperso1, labels = scale.zustimmung2)
+raw.short$dperso2 <- factor(raw.short$dperso2, labels = scale.zustimmung2)
+raw.short$dperso3 <- factor(raw.short$dperso3, labels = scale.zustimmung2)
+raw.short$dperso4 <- factor(raw.short$dperso4, labels = scale.zustimmung2)
+raw.short$dperso5 <- factor(raw.short$dperso5, labels = scale.zustimmung2)
+
+pl <- raw.short %>% 
+  select(dperso1, dperso2, dperso3, dperso4, dperso5) %>% 
+  as.data.frame() %>% 
+  likert() %>% 
+  plot() +
+  labs(title = "Likert Diagramm Bereitschaft zur Preisgabe persönlicher Daten", y = "Prozent", x = "Preisgabe persönlicher Daten", fill = "Antwort")
+
+pl
+
+ggsave("Likert_DPERSO.pdf", width = 7, height = 4)
+
 # Ergebnis: Es gibt keinen signifikanten, geschlechtsspezifischen Unterschied bei der Freigabe von personenbezogenen Daten (t(198.92) = 0.23, p = 0.8195). Die Nullhypothese H0 muss angenommen werden.
 ## FEEDBACK: Super! Das funktioniert so. Tipp für später: Da die Hypothese ungerichtet ist, ist es besonders wichtig, dass Sie die Mittelwerte für die einzelnen Gruppen nicht vergessen.
 
@@ -183,11 +217,13 @@ t.test( filter(data, gender == "Männlich")$DPERSO,
 library(jmv)
 ancova(data, dep = "SICH", factors = c("gender"), covs = "age")
 
+
 #Ergegbnis: Das Geschlecht hat einen signifikanten Einfluss auf das subjektive Sicherheitsempfinden, das Alter allerdings nicht.
 # Richtige Formulierung?
 ## FEEDBACK: Wie sie selbst schon richtig kommentiert haben, ist hier die ANCOVA die richtige Methode. 
 
-
+install.packages("plotrix")
+library(plotrix)
 
 # Hypothese 3: Es gibt einen geschlechtsspezifischen Unterschied hinsichtlich der Einstellung zur Dauer der Datenspeicherung unter dem kontrollierten Einfluss des KUT.
 # H0: Es gibt keinen geschlechtsspezifischen Unterschied hinsichtlich der Einstellung zur Dauer der Datenspeicherung unter dem kontrollierten Einfluss des KUT.
@@ -210,6 +246,10 @@ ancova(data, dep = "DSAVE", factors = c("gender"), covs = "KUT")
 
 cor.test(data = data, ~ age+SICH)
 
+library(ggplot2)
+
+
+
 #Ergebnis: Es gibt keinen signifikanten Zusammenhang zwischen dem subjektiven Sicherheitsempfinden und dem Alter der Probanden. H0 wird beibehalten.
 
 ### Zusammenhangshypothese 2: KUT und Bereitschaft zur langfristigen Datenspeicherung
@@ -217,6 +257,32 @@ cor.test(data = data, ~ age+SICH)
 ## H0: Es besteht kein Zusammenhang zwischen KUT und der Bereitschaft zur langfristigen Datenspeicherung.
 
 cor.test(data= data, ~ KUT+DSAVE)
+install.packages("likert")
+library(likert)
+
+# Likert Skala Zusammenhangshypothese 2
+raw.short$kut1 <- factor(raw.short$kut1, labels = scale.zustimmung)
+raw.short$kut2 <- factor(raw.short$kut2, labels = scale.zustimmung)
+raw.short$kut3 <- factor(raw.short$kut3, labels = scale.zustimmung)
+raw.short$kut4 <- factor(raw.short$kut4, labels = scale.zustimmung)
+raw.short$kut5 <- factor(raw.short$kut5, labels = scale.zustimmung)
+raw.short$kut6 <- factor(raw.short$kut6, labels = scale.zustimmung)
+raw.short$kut7 <- factor(raw.short$kut7, labels = scale.zustimmung)
+raw.short$kut8 <- factor(raw.short$kut8, labels = scale.zustimmung)
+
+raw.short$dsave1 <- factor(raw.short$dsave1, labels = scale.zustimmung2)
+raw.short$dsave2<- factor(raw.short$dsave2, labels = scale.zustimmung2)
+raw.short$dsave3 <- factor(raw.short$dsave3, labels = scale.zustimmung2)
+
+pl <- raw.short %>% 
+  select(kut1, kut2, kut3, kut4, kut5, kut6, kut7, kut8, dsave1, dsave2, dsave3) %>% 
+  as.data.frame() %>% 
+  likert() %>% 
+  plot() +
+  labs(title = "Likert Diagramm KUT und Bereitschaft zur langfristigen Datenspeicherung", y = "Prozent", x = "KUT und DSAVE", fill = "Antwort")
+
+pl
+ggsave("Likert_KUTDSAVE.pdf", width = 7, height = 4)
 
 #Ergebnis: Es gibt keinen Zusammenhang zwischen dem KUT und der Bereitschaft zur langfristigen Datenspeicherung. H0 wird beibehalten.
 
@@ -225,6 +291,28 @@ cor.test(data= data, ~ KUT+DSAVE)
 ## H0: Es gibt keinen Zusammenhang zwischen der Einstellung zur Privatsphäre und der Bereiteschaft persönliche Daten preiszugeben. 
 
 cor.test(data = data, ~PRIV+DPERSO)
+
+#Likert Skala Zusammenhangshypothese 3
+raw.short$priv1 <- factor(raw.short$priv1, labels = scale.zustimmung2)
+raw.short$priv2 <- factor(raw.short$priv2, labels = scale.zustimmung2)
+raw.short$priv3 <- factor(raw.short$priv3, labels = scale.zustimmung2)
+
+raw.short$dperso1 <- factor(raw.short$dperso1, labels = scale.zustimmung2)
+raw.short$dperso2 <- factor(raw.short$dperso2, labels = scale.zustimmung2)
+raw.short$dperso3 <- factor(raw.short$dperso3, labels = scale.zustimmung2)
+raw.short$dperso4 <- factor(raw.short$dperso4, labels = scale.zustimmung2)
+raw.short$dperso5 <- factor(raw.short$dperso5, labels = scale.zustimmung2)
+
+pl <- raw.short %>% 
+  select(priv1, priv2, priv3, dperso1, dperso2, dperso3, dperso4, dperso5) %>% 
+  as.data.frame() %>% 
+  likert() %>% 
+  plot() +
+  labs(title = "Likert Diagramm Einstellung zur Privatsphäre und Preisgabe persönlicher Daten", y = "Prozent", x = "PRIV und DPERSO", fill = "Antwort")
+
+pl
+
+ggsave("Likert_PRIVDPERSO.pdf", width = 8, height = 4)
 
 # Ergebnis: Es gibt keinen Zusammenhang zwischen der Einstellung zur Privatsphäre und der Bereiteschaft persönliche Daten preiszugeben. H0 wird beibehalten.
 
