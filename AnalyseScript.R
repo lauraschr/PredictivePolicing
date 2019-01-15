@@ -2,13 +2,13 @@
 
 install.packages("tidyverse")
 install.packages("lubridate")
-#install.packages("psych")
-#install.packages("esquisse")
-#install.packages("ggthemes")
-#install.packages("ggplot2")
-#install.packages("jmv")
+install.packages("psych")
+install.packages("esquisse")
+install.packages("ggthemes")
+install.packages("ggplot2")
+install.packages("jmv")
 
-#install.packages("devtools")
+install.packages("devtools")
 library(devtools)
 devtools::install_github("HCIC/r-tools")
 
@@ -145,7 +145,7 @@ scores <- scoreItems(keyslist, raw.short, missing = TRUE, min = 1, max = 6)
 
 
 data <- bind_cols(raw.short, as.tibble(scores$scores))
-data <- data %>% filter (age != "99")
+data <- data %>% filter (age != 99)
 data <- data %>% 
   select(-starts_with("kut", ignore.case = F)) %>% 
   select(-starts_with("priv", ignore.case = F)) %>%
