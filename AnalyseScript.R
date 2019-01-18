@@ -166,40 +166,63 @@ raw.short
  
 saveRDS(data, "data/smart_identification.rds")
 
-## Deskriptvie Statsitik
+## Deskriptvie Auswertung des bereinigten Datensatzes und ggpplot ----
 
 psych::describe(data)
 
 table(data$gender)
-# keine Angabe=1, Männlich=113, Weiblich=159
+# keine Angabe = 1, Männlich = 113, Weiblich = 159
 # weiblich ist der Modus unserer Daten
 
 table(data$age)
-# 23 Jahre ist der Modus unserer Daten
 max(table(data$age))
+# 23 Jahre ist der Modus unserer Daten
+
 mean(data$age)
-# Mittelwert=30.8
+# Mittelwert = 30.8
 sd(data$age)
-# mit einre Standardabweichung von 13.6
+# mit einer Standardabweichung von 13.6
 median(data$age)
 # 24 Jahre
 
 #qplot(data$age, binwidth = 1) + xlab ("Alter")
 library(ggplot2)
 
-# Histogramm des Alters unserer Stichprobe 
+# Histogramm des Alters der Probanden unserer Stichprobe 
 ggplot(data = data) +
   aes(x = age) +
   geom_histogram(bins = 30, fill = '#0c4c8a') +
   labs(title = 'Studentische Stichprobe',
    x = 'Alter (in Jahren)',
-   y = 'Häufigkeit (absolut)',
-   caption = 'n = 273','Histrogramm mit 30 bin', 
+   y = 'Häufigkeit (absolute)',
+   caption = 'n = 273',
    subtitle = 'Histogramm des Alters aller Probanden unserer Stichprobe') +
-   theme_grey() +
+   theme_gray() +
 NULL
 
-#ggsave("Alter_Histrogramm.pdf", width = 7, height = 4)
+ggsave("Alter_Histrogramm.pdf", width = 5, height = 3)
+
+# Histogramm des Alters nach Geschlecht und Bildungsstand
+
+library(ggplot2)
+
+data %>%
+  filter(gender != "Keine Angabe") %>% 
+  filter(!is.na(edu)) %>% 
+  ggplot() +
+  aes(x = age, fill = edu) +
+  geom_histogram(bins = 20) +
+  scale_fill_brewer(palette = "Paired") +
+  labs(title = 'Studentische Stichprobe',
+    x = 'Alter (in Jahren)',
+    y = 'Häufigkeit (absolute)',
+    fill = "Bildungsstand",
+    caption = 'Histogramm mit 20 bins',
+    subtitle = 'Histogramm des Alters nach Geschlecht und Bildungsstand') +
+  theme_gray() +
+  facet_wrap(vars(gender))
+
+ggsave ("Bildung_Histogramm.pdf", width = 10, height = 5)
 
 
 ## Unterschiedshypothesen ----
