@@ -10,8 +10,7 @@
 
 #install.packages("devtools")
 library(devtools)
-devtools::install_github("HCIC/r-tools")
-
+devtools::install_github("HCIC/r-tools")library(ggplot2)
 library(lubridate)
 library(tidyverse)
 
@@ -244,7 +243,21 @@ data %>%
 
 ggsave ("Geschlecht_Histrogramm.pdf", width = 5, height = 4)
 
+# Histogramm des Geschlechts nach Alter 
+data %>% 
+  filter(gender != "Keine Angabe") %>% 
+  ggplot() +
+  aes(x = gender, y = age, fill = gender) +
+  scale_fill_manual(values = c(rwthcolor$blue, rwthcolor$red)) +
+  geom_boxplot() +
+  labs(title = 'Histogramm des Geschlechts nach Alter',
+       x = 'Geschlecht',
+       y = 'Alter (in Jahren) ',
+       fill = 'Geschlecht',
+       caption = 'n = 272') +
+  theme_gray()
 
+ggsave ("Geschlecht_Alter_Histogramm.pdf", width = 5, height = 4)
 
 ## Unterschiedshypothesen ----
 # Hypothese 1: Es gibt einen geschlechtspezifischen Unterschied bei der Freigabe von personenbezogenen Daten.
