@@ -196,7 +196,7 @@ ggplot(data = data) +
    x = 'Alter (in Jahren)',
    y = 'Häufigkeit (absolute)',
    caption = 'n = 273',
-   subtitle = 'Histogramm des Alters aller Probanden') +
+   subtitle = 'Histogramm des Alters') +
    theme_gray() +
 NULL
 
@@ -217,10 +217,10 @@ data %>%
     x = 'Alter (in Jahren)',
     y = 'Häufigkeit (absolute)',
     fill = "Bildungsstand",library(ggplot2),
-    caption = 'Histogramm mit 20 bins',
     subtitle = 'Histogramm des Alters nach Geschlecht und Bildungsstand') +
   theme_gray() +
-  facet_wrap(vars(gender))
+  facet_wrap(vars(gender)) +
+NULL
 
 ggsave ("Bildungsstand_Histogramm.pdf", width = 12, height = 7)
 
@@ -235,7 +235,7 @@ data %>%
   aes(x = gender, fill = gender) +
   scale_fill_manual(values = c(rwthcolor$blue, rwthcolor$red)) +
   geom_bar() +
-  labs(title = 'Histogramm des Geschlechts der Probanden',
+  labs(title = 'Histogramm des Geschlechts',
     x = 'Geschlecht',
     y = 'Häufigkeit (absolute)',
     fill = 'Geschlecht',
@@ -244,14 +244,14 @@ data %>%
 
 ggsave ("Geschlecht_Histrogramm.pdf", width = 5, height = 4)
 
-# Histogramm des Geschlechts nach Alter 
+# Boxplot des Geschlechts nach Alter 
 data %>% 
   filter(gender != "Keine Angabe") %>% 
   ggplot() +
   aes(x = gender, y = age, fill = gender) +
   scale_fill_manual(values = c(rwthcolor$blue, rwthcolor$red)) +
   geom_boxplot() +
-  labs(title = 'Histogramm des Geschlechts nach Alter',
+  labs(title = 'Boxplot des Geschlechts nach Alter',
        x = 'Geschlecht',
        y = 'Alter (in Jahren) ',
        fill = 'Geschlecht',
