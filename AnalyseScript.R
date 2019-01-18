@@ -231,6 +231,23 @@ data %>% filter(gender != "Keine Angabe") %>% ggplot() + aes(x=gender, y=SICH) +
 
 ggsave("Punktdiagramm_SICH-Gender.pdf", width = 7, height = 4)
 
+raw.short$sich1 <- factor(raw.short$sich1, labels = scale.zustimmung2)
+raw.short$sich2 <- factor(raw.short$sich2, labels = scale.zustimmung2)
+raw.short$sich3 <- factor(raw.short$sich3, labels = scale.zustimmung2)
+raw.short$sich4 <- factor(raw.short$sich4, labels = scale.zustimmung2)
+raw.short$sich5 <- factor(raw.short$sich5, labels = scale.zustimmung2)
+raw.short$sich6 <- factor(raw.short$sich6, labels = scale.zustimmung2)
+
+pl <- raw.short %>% 
+  select(sich1, sich2, sich3, sich4, sich5, sich6) %>% 
+  as.data.frame() %>% 
+  likert() %>% 
+  plot() +
+  labs(title = "Likert Diagramm subjektives Sicherheitsempfinden", y = "Prozent", x = "subjektives Sicherheitsempfinden", fill = "Antwort")
+
+pl
+
+ggsave("Likert_SICH.pdf", width = 7, height = 4)
 #Ergegbnis: Das Geschlecht hat einen signifikanten Einfluss auf das subjektive Sicherheitsempfinden, das Alter allerdings nicht.
 # Richtige Formulierung?
 ## FEEDBACK: Wie sie selbst schon richtig kommentiert haben, ist hier die ANCOVA die richtige Methode. 
