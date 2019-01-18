@@ -166,6 +166,40 @@ raw.short
  
 saveRDS(data, "data/smart_identification.rds")
 
+## Deskriptvie Statsitik
+
+psych::describe(data)
+
+table(data$gender)
+# keine Angabe=1, Männlich=113, Weiblich=159
+# weiblich ist der Modus unserer Daten
+
+table(data$age)
+# 23 Jahre ist der Modus unserer Daten
+max(table(data$age))
+mean(data$age)
+# Mittelwert=30.8
+sd(data$age)
+# mit einre Standardabweichung von 13.6
+median(data$age)
+# 24 Jahre
+
+#qplot(data$age, binwidth = 1) + xlab ("Alter")
+library(ggplot2)
+
+# Histogramm des Alters unserer Stichprobe 
+ggplot(data = data) +
+  aes(x = age) +
+  geom_histogram(bins = 30, fill = '#0c4c8a') +
+  labs(title = 'Studentische Stichprobe',
+   x = 'Alter (in Jahren)',
+   y = 'Häufigkeit (absolut)',
+   caption = 'n = 273','Histrogramm mit 30 bin', 
+   subtitle = 'Histogramm des Alters aller Probanden unserer Stichprobe') +
+   theme_grey() +
+NULL
+
+#ggsave("Alter_Histrogramm.pdf", width = 7, height = 4)
 
 
 ## Unterschiedshypothesen ----
