@@ -1,14 +1,14 @@
 # Analyse Script ----
 
-install.packages("tidyverse")
-install.packages("lubridate")
-install.packages("psych")
-install.packages("esquisse")
-install.packages("ggthemes")
-install.packages("ggplot2")
-install.packages("jmv")
+#install.packages("tidyverse")
+#install.packages("lubridate")
+#install.packages("psych")
+#install.packages("esquisse")
+#install.packages("ggthemes")
+#install.packages("ggplot2")
+#install.packages("jmv")
 
-install.packages("devtools")
+#install.packages("devtools")
 library(devtools)
 devtools::install_github("HCIC/r-tools")
 
@@ -197,8 +197,14 @@ raw.short$dperso3 <- factor(raw.short$dperso3, labels = scale.zustimmung2)
 raw.short$dperso4 <- factor(raw.short$dperso4, labels = scale.zustimmung2)
 raw.short$dperso5 <- factor(raw.short$dperso5, labels = scale.zustimmung2)
 
-pl <- raw.short %>% 
-  select(dperso1, dperso2, dperso3, dperso4, dperso5) %>% 
+#colnames(raw.short)[which(names(raw.short) == "dperso1")] <- "Polizeiarbeit"
+#colnames(raw.short)[which(names(raw.short) == "dperso2")] <- "Missbrauch"
+#colnames(raw.short)[which(names(raw.short) == "dperso3")] <- "Datenverwendung"
+#colnames(raw.short)[which(names(raw.short) == "dperso4")] <- "Datenkontrolle"
+#colnames(raw.short)[which(names(raw.short) == "dperso5")] <- "Verwendungszweck"
+
+#pl <- raw.short %>% 
+  select(Polizeiarbeit,Missbrauch, Datenverwendung, Datenkontrolle, Verwendungszweck) %>% 
   as.data.frame() %>% 
   likert() %>% 
   plot() +
@@ -238,8 +244,15 @@ raw.short$sich4 <- factor(raw.short$sich4, labels = scale.zustimmung2)
 raw.short$sich5 <- factor(raw.short$sich5, labels = scale.zustimmung2)
 raw.short$sich6 <- factor(raw.short$sich6, labels = scale.zustimmung2)
 
-pl <- raw.short %>% 
-  select(sich1, sich2, sich3, sich4, sich5, sich6) %>% 
+#colnames(raw.short)[which(names(raw.short) == "sich1")] <- "Strafttatopfer"
+#colnames(raw.short)[which(names(raw.short) == "sich2")] <- "Vermeidung"
+#colnames(raw.short)[which(names(raw.short) == "sich3")] <- "Sicherheit"
+#colnames(raw.short)[which(names(raw.short) == "sich4")] <- "Polizeipräsenz"
+#colnames(raw.short)[which(names(raw.short) == "sich5")] <- "Agieren"
+#colnames(raw.short)[which(names(raw.short) == "sich6")] <- "Einschränkung"
+
+#pl <- raw.short %>% 
+  select(Strafttatopfer, Vermeidung, Sicherheit, Polizeipräsenz, Agieren, Einschränkung) %>% 
   as.data.frame() %>% 
   likert() %>% 
   plot() +
