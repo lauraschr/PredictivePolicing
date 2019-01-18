@@ -196,11 +196,11 @@ ggplot(data = data) +
    x = 'Alter (in Jahren)',
    y = 'Häufigkeit (absolute)',
    caption = 'n = 273',
-   subtitle = 'Histogramm des Alters aller Probanden unserer Stichprobe') +
+   subtitle = 'Histogramm des Alters aller Probanden') +
    theme_gray() +
 NULL
 
-ggsave("Alter_Histrogramm.pdf", width = 5, height = 3)
+ggsave("Alter_Histrogramm.pdf", width = 4, height = 4)
 
 # Histogramm des Alters nach Geschlecht und Bildungsstand
 
@@ -216,13 +216,34 @@ data %>%
   labs(title = 'Studentische Stichprobe',
     x = 'Alter (in Jahren)',
     y = 'Häufigkeit (absolute)',
-    fill = "Bildungsstand",
+    fill = "Bildungsstand",library(ggplot2),
     caption = 'Histogramm mit 20 bins',
     subtitle = 'Histogramm des Alters nach Geschlecht und Bildungsstand') +
   theme_gray() +
   facet_wrap(vars(gender))
 
-ggsave ("Bildung_Histogramm.pdf", width = 10, height = 5)
+ggsave ("Bildungsstand_Histogramm.pdf", width = 12, height = 7)
+
+# Historgram des Geschlechts 
+
+rwthcolor <- hcictools:: rwth.colorpalette()
+library(ggplot2)
+
+data %>% 
+  filter(gender != "Keine Angabe") %>% 
+  ggplot() +
+  aes(x = gender, fill = gender) +
+  scale_fill_manual(values = c(rwthcolor$blue, rwthcolor$red)) +
+  geom_bar() +
+  labs(title = 'Histogramm des Geschlechts der Probanden',
+    x = 'Geschlecht',
+    y = 'Häufigkeit (absolute)',
+    fill = 'Geschlecht',
+    caption = 'n = 272') +
+  theme_gray()
+
+ggsave ("Geschlecht_Histrogramm.pdf", width = 5, height = 4)
+
 
 
 ## Unterschiedshypothesen ----
