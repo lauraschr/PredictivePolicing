@@ -166,7 +166,7 @@ raw.short
  
 saveRDS(data, "data/smart_identification.rds")
 
-## Deskriptvie Auswertung des bereinigten Datensatzes und ggpplot ----
+## Deskriptvie Auswertung des bereinigten Datensatzes ----
 
 psych::describe(data)
 
