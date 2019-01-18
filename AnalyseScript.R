@@ -221,9 +221,9 @@ ggsave("Likert_DPERSO.pdf", width = 7, height = 4)
 # H0: Das subjektive Sicherheitsempfinden ist bei kontrolliertem Alterseinfluss nicht abhängig vom Geschlecht.
 
 library(jmv)
-res <- data %>% filter(gender != "Keine Angabe") %>% 
-  ancova(dep = "SICH", factors = c("gender"), covs = "age", 
-         emmPlots = T, emMeans = list("gender"), effectSize = "eta")
+data %>% filter(gender != "Keine Angabe") %>% 
+  ancova(dep = "SICH", factors = c("gender"), covs = "age")
+        
 plot1 <- res$emm 
 
 data %>% filter(gender != "Keine Angabe") %>% ggplot() + aes(x=gender, y=SICH) + stat_summary() +
