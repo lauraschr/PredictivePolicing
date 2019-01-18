@@ -10,7 +10,8 @@
 
 #install.packages("devtools")
 library(devtools)
-devtools::install_github("HCIC/r-tools")library(ggplot2)
+devtools::install_github("HCIC/r-tools")
+library(ggplot2)
 library(lubridate)
 library(tidyverse)
 
