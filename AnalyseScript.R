@@ -301,6 +301,22 @@ cor.test(data= data, ~ KUT+DSAVE)
 install.packages("likert")
 library(likert)
 
+# Punktdiagramm Zusammenhangshypothese 2
+
+library(ggplot2)
+
+ggplot(data = data) +
+  aes(x = KUT, y = DSAVE) +
+  geom_point(color = "#0c4c8a") +
+  labs(title = "Zusammenhang zwischen KUT und Bereitschaft zur langfristigen Datenspeicherung",
+    x = "Kontrollüberzeugung im Umgang mit Technik [1-6]",
+    y = "Bereitschaft zur langfristigen Datenspeicherung [1-6]",
+    caption = "n = 273",
+    subtitle = "Punktdiagramm KUT nach DSAVE") +
+  theme_gray()
+
+ggsave("Punktdiagramm_KUT-DSAVE.pdf", width = 8, height = 4)
+
 # Likert Skala Zusammenhangshypothese 2
 raw.short$kut1 <- factor(raw.short$kut1, labels = scale.zustimmung)
 raw.short$kut2 <- factor(raw.short$kut2, labels = scale.zustimmung)
