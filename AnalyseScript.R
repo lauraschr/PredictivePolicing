@@ -215,8 +215,21 @@ ggsave("Likert_DPERSO.pdf", width = 7, height = 4)
 # H0: Das subjektive Sicherheitsempfinden ist bei kontrolliertem Alterseinfluss nicht abhängig vom Geschlecht.
 
 library(jmv)
-ancova(data, dep = "SICH", factors = c("gender"), covs = "age")
+res <- data %>% filter(gender != "Keine Angabe") %>% 
+  ancova(dep = "SICH", factors = c("gender"), covs = "age", 
+         emmPlots = T, emMeans = list("gender"), effectSize = "eta")
+plot1 <- res$emm 
 
+data %>% filter(gender != "Keine Angabe") %>% ggplot() + aes(x=gender, y=SICH) + stat_summary() +
+  scale_y_continuous(limits=c(1,6)) +
+  labs(title = "Geschlechtsspezifischer Unterschied beim subjektiven Sicherheitsempfinden",
+       x = "Geschlecht",
+       y = "subjektives Sicherheitsempfinden [1-6]",
+       caption = "n = 272, Fehlerbalken zeigt Standardfehler",
+       subtitle = "Punktdiagramm von Geschlecht nach Sicherheitsempfinden") +
+  theme_gray()
+
+ggsave("Punktdiagramm_SICH-Gender.pdf", width = 7, height = 4)
 
 #Ergegbnis: Das Geschlecht hat einen signifikanten Einfluss auf das subjektive Sicherheitsempfinden, das Alter allerdings nicht.
 # Richtige Formulierung?
