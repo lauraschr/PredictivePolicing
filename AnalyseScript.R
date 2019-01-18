@@ -289,8 +289,6 @@ ancova(data, dep = "DSAVE", factors = c("gender"), covs = "KUT")
 
 cor.test(data = data, ~ age+SICH)
 
-library(ggplot2)
-
 
 
 #Ergebnis: Es gibt keinen signifikanten Zusammenhang zwischen dem subjektiven Sicherheitsempfinden und dem Alter der Probanden. H0 wird beibehalten.
@@ -317,15 +315,28 @@ raw.short$dsave1 <- factor(raw.short$dsave1, labels = scale.zustimmung2)
 raw.short$dsave2<- factor(raw.short$dsave2, labels = scale.zustimmung2)
 raw.short$dsave3 <- factor(raw.short$dsave3, labels = scale.zustimmung2)
 
-pl <- raw.short %>% 
-  select(kut1, kut2, kut3, kut4, kut5, kut6, kut7, kut8, dsave1, dsave2, dsave3) %>% 
+#colnames(raw.short)[which(names(raw.short) == "dsave1")] <- "permanent"
+#colnames(raw.short)[which(names(raw.short) == "dsave2")] <- "temporär"
+#colnames(raw.short)[which(names(raw.short) == "dsave3")] <- "kurzfristig"
+
+#colnames(raw.short)[which(names(raw.short) == "kut1")] <- "Probleme"
+#colnames(raw.short)[which(names(raw.short) == "kut2")] <- "Geräte"
+#colnames(raw.short)[which(names(raw.short) == "kut3")] <- "Spaß"
+#colnames(raw.short)[which(names(raw.short) == "kut4")] <- "Optimismus"
+#colnames(raw.short)[which(names(raw.short) == "kut5")] <- "Hilflosigkeit"
+#colnames(raw.short)[which(names(raw.short) == "kut6")] <- "Widerstände"
+#colnames(raw.short)[which(names(raw.short) == "kut7")] <- "Glück"
+#colnames(raw.short)[which(names(raw.short) == "kut8")] <- "Kompliziertheit"
+
+#pl <- raw.short %>% 
+  select(permanent, temporär, kurzfristig, Probleme, Geräte, Spaß, Optimismus, Hilflosigkeit, Widerstände, Glück, Kompliziertheit) %>% 
   as.data.frame() %>% 
   likert() %>% 
   plot() +
   labs(title = "Likert Diagramm KUT und Bereitschaft zur langfristigen Datenspeicherung", y = "Prozent", x = "KUT und DSAVE", fill = "Antwort")
 
 pl
-ggsave("Likert_KUTDSAVE.pdf", width = 7, height = 4)
+ggsave("Likert_KUTDSAVE.pdf", width = 8, height = 4)
 
 #Ergebnis: Es gibt keinen Zusammenhang zwischen dem KUT und der Bereitschaft zur langfristigen Datenspeicherung. H0 wird beibehalten.
 
