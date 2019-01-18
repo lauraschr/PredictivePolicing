@@ -181,14 +181,15 @@ data %>%
 ggplot() +
   aes(x = gender, y = DPERSO) +
   geom_boxplot(fill = "#ffffff") +
+  ylim(1, 6) +
   labs(title = "Geschlechtsspezifischer Unterschied bei der Freigabe personenbezogener Daten",
        x = "Geschlecht",
-       y = "Freigabe personenbezogener Daten",
+       y = "Freigabe personenbezogener Daten [1-6]",
        caption = "n = 273, Punkte zeigen Ausreißer",
        subtitle = "Boxplot des Geschlecht nach Freigabe personenbezogener Daten") +
   theme_gray()
 
-ggsave("dperso_histogramm.pdf", width = 7, height = 4)
+ggsave("dperso_boxplot.pdf", width = 7, height = 4)
 
 #Likert Skala Unterschiedshypothese 1
 raw.short$dperso1 <- factor(raw.short$dperso1, labels = scale.zustimmung2)
@@ -231,7 +232,7 @@ data %>% filter(gender != "Keine Angabe") %>% ggplot() + aes(x=gender, y=SICH) +
   labs(title = "Geschlechtsspezifischer Unterschied beim subjektiven Sicherheitsempfinden",
        x = "Geschlecht",
        y = "subjektives Sicherheitsempfinden [1-6]",
-       caption = "n = 272, Fehlerbalken zeigt Standardfehler",
+       caption = "n = 273, Fehlerbalken zeigt Standardfehler",
        subtitle = "Punktdiagramm von Geschlecht nach Sicherheitsempfinden") +
   theme_gray()
 
@@ -289,7 +290,20 @@ ancova(data, dep = "DSAVE", factors = c("gender"), covs = "KUT")
 
 cor.test(data = data, ~ age+SICH)
 
+# Punktdiagramm Alter und SICH
 
+ggplot(data = data) +
+  aes(x = age, y = SICH) +
+  geom_point(color = "#0c4c8a") +
+  ylim(1, 6) +
+  labs(title = "Zusammenhang zwischen Alter und subjektiven Sicherheitsempfinden",
+       x = "Alter",
+       y = "subjektives Sicherheitsempfinden [1-6]",
+       caption = "n = 273",
+       subtitle = "Punktdiagramm von Alter nach SICH") +
+  theme_gray()
+
+ggsave("Punktdiagramm_age-SICH.pdf", width = 7, height = 4)
 
 #Ergebnis: Es gibt keinen signifikanten Zusammenhang zwischen dem subjektiven Sicherheitsempfinden und dem Alter der Probanden. H0 wird beibehalten.
 
