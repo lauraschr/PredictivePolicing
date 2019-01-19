@@ -22,15 +22,20 @@ Stand: 08.01.2019
 3. Es gibt einen geschlechtsspezifischen Unterschied hinsichtlich der Einstellung zur Dauer der Datenspeicherung unter dem kontrollierten Einfluss des KUT.
 
 ## Zusammenhangshypothesen
-Stand: 08.01.2019
+Stand: 19.01.2019
 
-1. Das subjektive Sicherheitsempfinden hängt ab vom Alter der Probanden
+1. Es besteht ein Zusammenhang zwischen der Einstellung zur Privatsphäre und dem subjektiven Sicherheitsempfinden der Probanden.
 
 2. Es besteht ein Zusammenhang zwischen KUT und der Bereitschaft zur langfristigen Datenspeicherung.
 
 3. Es besteht ein Zusammenhang zwischen der Einstellung zur Privatsphäre und der Bereitschaft persönliche Daten preiszugeben.
 
-Ergebnis: Bei keinen der drei Zusammenhangshypothesen gab es einen signifikanten Unterschied. 
+Ergebnisse:
+- Bei Hypothese 1 besteht ein signifikanter schwach positiver Zusammenhang.
+- Bei Hypothese 2 besteht kein signifikanter Zusammenhang.
+- Bei Hypothese 3 besteht ein signifikanter positiver Zusammenhang.
+
+
 
 ## Hinweise zum Umgang mit P-Werten
 
@@ -53,6 +58,10 @@ Definition: "Die Wahrscheinlichkeit des beobachteten Ergebnisses, wenn die Nullh
 - 27.11.2018: Erfassung des Dummy-Datensatzes
 
 ## _Frühere Versionen_
+
+Am 19.01.2019 wurde diese Version aus folgenden Gründen angepasst:
+- Anpassung Hypothesen, da Dopplung
+
 Am 08.01.2019 wurde diese Version aus folgenden Gründen angepasst:
 - Einarbeitung des Feedbacks zu den Hypothesen
 - Testung der Hypothesen
