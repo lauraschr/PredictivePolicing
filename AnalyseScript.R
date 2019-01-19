@@ -22,11 +22,12 @@ print ("Hier werden später Grafiken erstellt. Thema ab dem 16.11.2018")
 #install.packages("esquisse")
 #install.packages("ggthemes")
 #install.packages("ggplot2")
+#install.packages("jmv")
 
 #install.packages("devtools")
 library(devtools)
 devtools::install_github("HCIC/r-tools")
-
+library(ggplot2)
 library(lubridate)
 library(tidyverse)
 
@@ -35,7 +36,7 @@ source("surveymonkey.R")
 
 # Datei laden ----
 
-filename <- "data/smart_identification.csv"
+filename <- "data/SmartIdentification.csv"
 raw <- load_surveymonkey_csv(filename)
 
 
@@ -145,9 +146,9 @@ keyslist <- list (KUT= c("kut1", "-kut2", "kut3", "kut4", "-kut5", "kut6", "-kut
                   DSAVE = c("dsave1", "dsave2", "-dsave3"),
                   DTYPE = c("dtype1", "-dtype2", "dtype3"))
 
-keyslist.edu <- list(EDU = c("edu"))
+#keyslist.edu <- list(EDU = c("edu"))
 
-keyslist.residence <- list(RESIDENCE = c("residence"))
+#keyslist.residence <- list(RESIDENCE = c("residence"))
                   
         
                   
@@ -155,11 +156,12 @@ keyslist.residence <- list(RESIDENCE = c("residence"))
 #print("Hier werden später Skalen berechnet. Thema am 09.11.2018")
 
 scores <- scoreItems(keyslist, raw.short, missing = TRUE, min = 1, max = 6)
-scores.edu <- scoreItems (keyslist.edu, raw.short, missing = TRUE, min = 1, max = 5)
-scores.residence <- scoreItems (keyslist.residence, raw.short, missing = TRUE, min = 1, max = 4)
+#scores.edu <- scoreItems (keyslist.edu, raw.short, missing = TRUE, min = 1, max = 5)
+#scores.residence <- scoreItems (keyslist.residence, raw.short, missing = TRUE, min = 1, max = 4)
 
 
 data <- bind_cols(raw.short, as.tibble(scores$scores))
+data <- data %>% filter (age != 99)
 data <- data %>% 
   select(-starts_with("kut", ignore.case = F)) %>% 
   select(-starts_with("priv", ignore.case = F)) %>%
@@ -169,6 +171,9 @@ data <- data %>%
   select(-starts_with("dsave", ignore.case = F)) %>%
   select(-starts_with("dtype", ignore.case = F))
 
+library(ggplot2)
+
+
 data
 raw.short
 
@@ -177,35 +182,207 @@ raw.short
  
 saveRDS(data, "data/smart_identification.rds")
 
+## Deskriptvie Auswertung des bereinigten Datensatzes ----
 
+psych::describe(data)
+
+table(data$gender)
+# keine Angabe = 1, Männlich = 113, Weiblich = 159
+# weiblich ist der Modus unserer Daten
+
+table(data$age)
+max(table(data$age))
+# 23 Jahre ist der Modus unserer Daten
+
+mean(data$age)
+# Mittelwert = 30.8
+sd(data$age)
+# mit einer Standardabweichung von 13.6
+median(data$age)
+# 24 Jahre
+
+#qplot(data$age, binwidth = 1) + xlab ("Alter")
+library(ggplot2)
+
+# Histogramm des Alters der Probanden unserer Stichprobe 
+ggplot(data = data) +
+  aes(x = age) +
+  geom_histogram(bins = 30, fill = '#0c4c8a') +
+  labs(title = 'Studentische Stichprobe',
+   x = 'Alter (in Jahren)',
+   y = 'Häufigkeit (absolute)',
+   caption = 'n = 273',
+   subtitle = 'Histogramm des Alters') +
+   theme_gray() +
+NULL
+
+ggsave("Alter_Histrogramm.pdf", width = 4, height = 4)
+
+# Histogramm des Alters nach Geschlecht und Bildungsstand
+
+library(ggplot2)
+
+data %>%
+  filter(gender != "Keine Angabe") %>% 
+  filter(!is.na(edu)) %>% 
+  ggplot() +
+  aes(x = age, fill = edu) +
+  geom_histogram(bins = 20) +
+  scale_fill_brewer(palette = "Paired") +
+  labs(title = 'Studentische Stichprobe',
+    x = 'Alter (in Jahren)',
+    y = 'Häufigkeit (absolute)',
+    fill = "Bildungsstand",library(ggplot2),
+    subtitle = 'Histogramm des Alters nach Geschlecht und Bildungsstand') +
+  theme_gray() +
+  facet_wrap(vars(gender)) +
+NULL
+
+ggsave ("Bildungsstand_Histogramm.pdf", width = 12, height = 7)
+
+# Historgram des Geschlechts 
+
+rwthcolor <- hcictools:: rwth.colorpalette()
+library(ggplot2)
+
+data %>% 
+  filter(gender != "Keine Angabe") %>% 
+  ggplot() +
+  aes(x = gender, fill = gender) +
+  scale_fill_manual(values = c(rwthcolor$blue, rwthcolor$red)) +
+  geom_bar() +
+  labs(title = 'Histogramm des Geschlechts',
+    x = 'Geschlecht',
+    y = 'Häufigkeit (absolute)',
+    fill = 'Geschlecht',
+    caption = 'n = 272') +
+  theme_gray()
+
+ggsave ("Geschlecht_Histrogramm.pdf", width = 5, height = 4)
+
+# Boxplot des Geschlechts nach Alter 
+data %>% 
+  filter(gender != "Keine Angabe") %>% 
+  ggplot() +
+  aes(x = gender, y = age, fill = gender) +
+  scale_fill_manual(values = c(rwthcolor$blue, rwthcolor$red)) +
+  geom_boxplot() +
+  labs(title = 'Boxplot des Geschlechts nach Alter',
+       x = 'Geschlecht',
+       y = 'Alter (in Jahren) ',
+       fill = 'Geschlecht',
+       caption = 'n = 272') +
+  theme_gray()
+
+ggsave ("Geschlecht_Alter_Histogramm.pdf", width = 5, height = 4)
 
 ## Unterschiedshypothesen ----
 # Hypothese 1: Es gibt einen geschlechtspezifischen Unterschied bei der Freigabe von personenbezogenen Daten.
 # H0: Es gibt keinen geschlechtsspezifischen Unterschied bei der Freigabe von personenbezogenen Daten.
 
-# t.test( filter(data, gender == "Männlich")$DPERSO,
-        #filter(data, gender == "Weiblich")$DPERSO )
+t.test( filter(data, gender == "Männlich")$DPERSO,
+        filter(data, gender == "Weiblich")$DPERSO )
 
-# Ergebnis: 
+# Boxplot Unterschiedshypothese 1
+data %>% 
+  filter(gender != "Keine Angabe") %>%  
+ggplot() +
+  aes(x = gender, y = DPERSO) +
+  geom_boxplot(fill = "#ffffff") +
+  ylim(1, 6) +
+  labs(title = "Geschlechtsspezifischer Unterschied bei der Freigabe personenbezogener Daten",
+       x = "Geschlecht",
+       y = "Freigabe personenbezogener Daten [1-6]",
+       caption = "n = 273, Punkte zeigen Ausreißer",
+       subtitle = "Boxplot des Geschlecht nach Freigabe personenbezogener Daten") +
+  theme_gray()
+
+ggsave("dperso_boxplot.pdf", width = 7, height = 4)
+
+#Likert Skala Unterschiedshypothese 1
+raw.short$dperso1 <- factor(raw.short$dperso1, labels = scale.zustimmung2)
+raw.short$dperso2 <- factor(raw.short$dperso2, labels = scale.zustimmung2)
+raw.short$dperso3 <- factor(raw.short$dperso3, labels = scale.zustimmung2)
+raw.short$dperso4 <- factor(raw.short$dperso4, labels = scale.zustimmung2)
+raw.short$dperso5 <- factor(raw.short$dperso5, labels = scale.zustimmung2)
+
+#colnames(raw.short)[which(names(raw.short) == "dperso1")] <- "Polizeiarbeit"
+#colnames(raw.short)[which(names(raw.short) == "dperso2")] <- "Missbrauch"
+#colnames(raw.short)[which(names(raw.short) == "dperso3")] <- "Datenverwendung"
+#colnames(raw.short)[which(names(raw.short) == "dperso4")] <- "Datenkontrolle"
+#colnames(raw.short)[which(names(raw.short) == "dperso5")] <- "Verwendungszweck"
+
+#pl <- raw.short %>% 
+  select(Polizeiarbeit,Missbrauch, Datenverwendung, Datenkontrolle, Verwendungszweck) %>% 
+  as.data.frame() %>% 
+  likert() %>% 
+  plot() +
+  labs(title = "Likert Diagramm Bereitschaft zur Preisgabe persönlicher Daten", y = "Prozent", x = "Preisgabe persönlicher Daten", fill = "Antwort")
+
+pl
+
+ggsave("Likert_DPERSO.pdf", width = 7, height = 4)
+
+# Ergebnis: Es gibt keinen signifikanten, geschlechtsspezifischen Unterschied bei der Freigabe von personenbezogenen Daten (t(198.92) = 0.23, p = 0.8195). Die Nullhypothese H0 muss angenommen werden.
 ## FEEDBACK: Super! Das funktioniert so. Tipp für später: Da die Hypothese ungerichtet ist, ist es besonders wichtig, dass Sie die Mittelwerte für die einzelnen Gruppen nicht vergessen.
 
 # Hypothese 2: Das subjektive Sicherheitsempfinden ist bei kontrolliertem Alterseinfluss abhängig vom Geschlecht.
 # H0: Das subjektive Sicherheitsempfinden ist bei kontrolliertem Alterseinfluss nicht abhängig vom Geschlecht.
 
-#t.test (filter(data, gender == "Männlich")$SICH,
-        #filter(data, gender == "Weiblich")$SICH)
-## ANCOVA Test noch einfügen
+library(jmv)
+data %>% filter(gender != "Keine Angabe") %>% 
+  ancova(dep = "SICH", factors = c("gender"), covs = "age")
+        
+plot1 <- res$emm 
+
+data %>% filter(gender != "Keine Angabe") %>% ggplot() + aes(x=gender, y=SICH) + stat_summary() +
+  scale_y_continuous(limits=c(1,6)) +
+  labs(title = "Geschlechtsspezifischer Unterschied beim subjektiven Sicherheitsempfinden",
+       x = "Geschlecht",
+       y = "subjektives Sicherheitsempfinden [1-6]",
+       caption = "n = 273, Fehlerbalken zeigt Standardfehler",
+       subtitle = "Punktdiagramm von Geschlecht nach Sicherheitsempfinden") +
+  theme_gray()
+
+ggsave("Punktdiagramm_SICH-Gender.pdf", width = 7, height = 4)
+
+raw.short$sich1 <- factor(raw.short$sich1, labels = scale.zustimmung2)
+raw.short$sich2 <- factor(raw.short$sich2, labels = scale.zustimmung2)
+raw.short$sich3 <- factor(raw.short$sich3, labels = scale.zustimmung2)
+raw.short$sich4 <- factor(raw.short$sich4, labels = scale.zustimmung2)
+raw.short$sich5 <- factor(raw.short$sich5, labels = scale.zustimmung2)
+raw.short$sich6 <- factor(raw.short$sich6, labels = scale.zustimmung2)
+
+#colnames(raw.short)[which(names(raw.short) == "sich1")] <- "Strafttatopfer"
+#colnames(raw.short)[which(names(raw.short) == "sich2")] <- "Vermeidung"
+#colnames(raw.short)[which(names(raw.short) == "sich3")] <- "Sicherheit"
+#colnames(raw.short)[which(names(raw.short) == "sich4")] <- "Polizeipräsenz"
+#colnames(raw.short)[which(names(raw.short) == "sich5")] <- "Agieren"
+#colnames(raw.short)[which(names(raw.short) == "sich6")] <- "Einschränkung"
+
+#pl <- raw.short %>% 
+  select(Strafttatopfer, Vermeidung, Sicherheit, Polizeipräsenz, Agieren, Einschränkung) %>% 
+  as.data.frame() %>% 
+  likert() %>% 
+  plot() +
+  labs(title = "Likert Diagramm subjektives Sicherheitsempfinden", y = "Prozent", x = "subjektives Sicherheitsempfinden", fill = "Antwort")
+
+pl
+
+ggsave("Likert_SICH.pdf", width = 7, height = 4)
+#Ergegbnis: Das Geschlecht hat einen signifikanten Einfluss auf das subjektive Sicherheitsempfinden, das Alter allerdings nicht.
+# Richtige Formulierung?
 ## FEEDBACK: Wie sie selbst schon richtig kommentiert haben, ist hier die ANCOVA die richtige Methode. 
 
-# Ergebnis:
+install.packages("plotrix")
+library(plotrix)
 
-# Hypothese 3: Es gibt einen Unterschied hinsichtlich der Einstellung zur Dauer der Datenspeicherung bei Menschen mit höherem und niedrigerem Bildungsabschluss.
-# H0: Es gibt keinen Unterschied hinsichtlich der Einstellung zur Dauer der Datenspeicherung bei Menschen mit höherem und niedrigerem Bildungsabschluss.
+# Hypothese 3: Es gibt einen geschlechtsspezifischen Unterschied hinsichtlich der Einstellung zur Dauer der Datenspeicherung unter dem kontrollierten Einfluss des KUT.
+# H0: Es gibt keinen geschlechtsspezifischen Unterschied hinsichtlich der Einstellung zur Dauer der Datenspeicherung unter dem kontrollierten Einfluss des KUT.
 
-#t.test( filter(data, edu == "Hauptschulabschluss")$DSAVE,
-        #filter(data, edu == "Studienabschluss (Bachelor, Master, Magister, Diplom, Promotion etc.")$DSAVE) 
+ancova(data, dep = "DSAVE", factors = c("gender"), covs = "KUT")
 
-#Ergebnis: 
+#Ergebnis: Es gibt keinen signifikanten Unterschied. Die Nullhypothese wird beibehalten. 
 ## FEEDBACK: Die zweite Zeile funktioniert natürlich so nicht, da das keine Antwortmöglichkeit darstellt.
 # Sie können mehrere logische Aussagen mit logischem oder verknüpfen: ||  <- das ist das Zeichen für logisches Oder.
 # z.B. filter(data, edu == "Hauptschulabschluss" || edu == "Realschulabschluss")
@@ -219,20 +396,117 @@ saveRDS(data, "data/smart_identification.rds")
 ## H1: Das subjektive Sicherheitsempfinden hängt ab vom Alter der Probanden. 
 ## H0: Es gibt keinen Zusammenhang zwischen dem subjektiven Sicherheitsempfinden und dem Alter der Probanden.
 
+cor.test(data = data, ~ age+SICH)
+
+# Punktdiagramm Alter und SICH
+
+ggplot(data = data) +
+  aes(x = age, y = SICH) +
+  geom_point(color = "#0c4c8a") +
+  ylim(1, 6) +
+  labs(title = "Zusammenhang zwischen Alter und subjektiven Sicherheitsempfinden",
+       x = "Alter",
+       y = "subjektives Sicherheitsempfinden [1-6]",
+       caption = "n = 273",
+       subtitle = "Punktdiagramm von Alter nach SICH") +
+  theme_gray()
+
+ggsave("Punktdiagramm_age-SICH.pdf", width = 7, height = 4)
+
+#Ergebnis: Es gibt keinen signifikanten Zusammenhang zwischen dem subjektiven Sicherheitsempfinden und dem Alter der Probanden. H0 wird beibehalten.
+
 ### Zusammenhangshypothese 2: KUT und Bereitschaft zur langfristigen Datenspeicherung
 ## H1: Es besteht ein Zusammenhang zwischen KUT und der Bereitschaft zur langfristigen Datenspeicherung.
 ## H0: Es besteht kein Zusammenhang zwischen KUT und der Bereitschaft zur langfristigen Datenspeicherung.
 
-### Zusammenhangshypothese 3: Schulabschluss und Bereitschaft persönliche Daten preiszugeben
-## H1: Es besteht ein Zusammenhang zwischen dem Schulabschluss und der Bereitschaft persönliche Daten preiszugeben. 
-## H0: Es gibt keinen Zusammenhang zwischen dem Schulabschluss und der Bereiteschaft persönliche Daten preiszugeben. 
+cor.test(data= data, ~ KUT+DSAVE)
+install.packages("likert")
+library(likert)
 
-cor.test(data=df_multi, ~ age+sich)
+# Punktdiagramm Zusammenhangshypothese 2
 
-cor.test(data=df_multi, ~ kut+dsave)
+library(ggplot2)
 
-cor.test(data=df_multi,
-         ~education+round(dperso), method="kendall") 
+ggplot(data = data) +
+  aes(x = KUT, y = DSAVE) +
+  geom_point(color = "#0c4c8a") +
+  labs(title = "Zusammenhang zwischen KUT und Bereitschaft zur langfristigen Datenspeicherung",
+    x = "Kontrollüberzeugung im Umgang mit Technik [1-6]",
+    y = "Bereitschaft zur langfristigen Datenspeicherung [1-6]",
+    caption = "n = 273",
+    subtitle = "Punktdiagramm KUT nach DSAVE") +
+  theme_gray()
+
+ggsave("Punktdiagramm_KUT-DSAVE.pdf", width = 8, height = 4)
+
+# Likert Skala Zusammenhangshypothese 2
+raw.short$kut1 <- factor(raw.short$kut1, labels = scale.zustimmung)
+raw.short$kut2 <- factor(raw.short$kut2, labels = scale.zustimmung)
+raw.short$kut3 <- factor(raw.short$kut3, labels = scale.zustimmung)
+raw.short$kut4 <- factor(raw.short$kut4, labels = scale.zustimmung)
+raw.short$kut5 <- factor(raw.short$kut5, labels = scale.zustimmung)
+raw.short$kut6 <- factor(raw.short$kut6, labels = scale.zustimmung)
+raw.short$kut7 <- factor(raw.short$kut7, labels = scale.zustimmung)
+raw.short$kut8 <- factor(raw.short$kut8, labels = scale.zustimmung)
+
+raw.short$dsave1 <- factor(raw.short$dsave1, labels = scale.zustimmung2)
+raw.short$dsave2<- factor(raw.short$dsave2, labels = scale.zustimmung2)
+raw.short$dsave3 <- factor(raw.short$dsave3, labels = scale.zustimmung2)
+
+#colnames(raw.short)[which(names(raw.short) == "dsave1")] <- "permanent"
+#colnames(raw.short)[which(names(raw.short) == "dsave2")] <- "temporär"
+#colnames(raw.short)[which(names(raw.short) == "dsave3")] <- "kurzfristig"
+
+#colnames(raw.short)[which(names(raw.short) == "kut1")] <- "Probleme"
+#colnames(raw.short)[which(names(raw.short) == "kut2")] <- "Geräte"
+#colnames(raw.short)[which(names(raw.short) == "kut3")] <- "Spaß"
+#colnames(raw.short)[which(names(raw.short) == "kut4")] <- "Optimismus"
+#colnames(raw.short)[which(names(raw.short) == "kut5")] <- "Hilflosigkeit"
+#colnames(raw.short)[which(names(raw.short) == "kut6")] <- "Widerstände"
+#colnames(raw.short)[which(names(raw.short) == "kut7")] <- "Glück"
+#colnames(raw.short)[which(names(raw.short) == "kut8")] <- "Kompliziertheit"
+
+#pl <- raw.short %>% 
+  select(permanent, temporär, kurzfristig, Probleme, Geräte, Spaß, Optimismus, Hilflosigkeit, Widerstände, Glück, Kompliziertheit) %>% 
+  as.data.frame() %>% 
+  likert() %>% 
+  plot() +
+  labs(title = "Likert Diagramm KUT und Bereitschaft zur langfristigen Datenspeicherung", y = "Prozent", x = "KUT und DSAVE", fill = "Antwort")
+
+pl
+ggsave("Likert_KUTDSAVE.pdf", width = 8, height = 4)
+
+#Ergebnis: Es gibt keinen Zusammenhang zwischen dem KUT und der Bereitschaft zur langfristigen Datenspeicherung. H0 wird beibehalten.
+
+### Zusammenhangshypothese 3: Einstellung zur Privatsphäre und Bereitschaft persönliche Daten preiszugeben
+## H1: Es besteht ein Zusammenhang zwischen der Einstellung zur Privatsphäre und der Bereitschaft persönliche Daten preiszugeben. 
+## H0: Es gibt keinen Zusammenhang zwischen der Einstellung zur Privatsphäre und der Bereiteschaft persönliche Daten preiszugeben. 
+
+cor.test(data = data, ~PRIV+DPERSO)
+
+#Likert Skala Zusammenhangshypothese 3
+raw.short$priv1 <- factor(raw.short$priv1, labels = scale.zustimmung2)
+raw.short$priv2 <- factor(raw.short$priv2, labels = scale.zustimmung2)
+raw.short$priv3 <- factor(raw.short$priv3, labels = scale.zustimmung2)
+
+raw.short$dperso1 <- factor(raw.short$dperso1, labels = scale.zustimmung2)
+raw.short$dperso2 <- factor(raw.short$dperso2, labels = scale.zustimmung2)
+raw.short$dperso3 <- factor(raw.short$dperso3, labels = scale.zustimmung2)
+raw.short$dperso4 <- factor(raw.short$dperso4, labels = scale.zustimmung2)
+raw.short$dperso5 <- factor(raw.short$dperso5, labels = scale.zustimmung2)
+
+pl <- raw.short %>% 
+  select(priv1, priv2, priv3, dperso1, dperso2, dperso3, dperso4, dperso5) %>% 
+  as.data.frame() %>% 
+  likert() %>% 
+  plot() +
+  labs(title = "Likert Diagramm Einstellung zur Privatsphäre und Preisgabe persönlicher Daten", y = "Prozent", x = "PRIV und DPERSO", fill = "Antwort")
+
+pl
+
+ggsave("Likert_PRIVDPERSO.pdf", width = 8, height = 4)
+
+# Ergebnis: Es gibt keinen Zusammenhang zwischen der Einstellung zur Privatsphäre und der Bereiteschaft persönliche Daten preiszugeben. H0 wird beibehalten.
 
 ## Feedback: Ihr Datensatz heißt gar nicht df_multi ;-)
 # Ob bei dem richtigen Datensatz so funktioniert weiß ich nicht, es kann nämlich sein dass die Methode cor.test() zwischen Groß- und Kleinschreibung unterscheidet. Lieber genau so schreiben wie in den Daten: Groß. 
