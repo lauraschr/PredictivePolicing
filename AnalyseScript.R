@@ -101,8 +101,8 @@ raw.short$kut4 <- ordered(raw.short$kut4, levels = scale.zustimmung)
 raw.short$kut5 <- ordered(raw.short$kut5, levels = scale.zustimmung)
 raw.short$kut6 <- ordered(raw.short$kut6, levels = scale.zustimmung)
 raw.short$kut7 <- ordered(raw.short$kut7, levels = scale.zustimmung)
-raw.short$kut8 <- ordered(raw.short$kut8, levels = scale.zustimmung)
 
+raw.short$kut8 <- ordered(raw.short$kut8, levels = scale.zustimmung)
 raw.short$priv1 <- ordered(raw.short$priv1, levels = scale.zustimmung2)
 raw.short$priv2 <- ordered(raw.short$priv2, levels = scale.zustimmung2)
 raw.short$priv3 <- ordered(raw.short$priv3, levels = scale.zustimmung2)
@@ -199,6 +199,7 @@ mean(data$age)
 sd(data$age)
 # mit einer Standardabweichung von 13.6
 median(data$age)
+
 # 24 Jahre
 
 #qplot(data$age, binwidth = 1) + xlab ("Alter")
@@ -392,28 +393,29 @@ ancova(data, dep = "DSAVE", factors = c("gender"), covs = "KUT")
 
 # Zusammenhangshypothesen ----
 
-### Zusammenhangshypothese 1: Alter und subjektives Sicherheitsempfinden  
-## H1: Das subjektive Sicherheitsempfinden hängt ab vom Alter der Probanden. 
-## H0: Es gibt keinen Zusammenhang zwischen dem subjektiven Sicherheitsempfinden und dem Alter der Probanden.
+### Zusammenhangshypothese 1: Einstellung zur Pivatsphäre und subjektives Sicherheitsempfinden  
+## H1: Es existiert ein Zusammenhang zwischen dem subjektiven Sicherheitsempfinden und der Einstellung zur Privatsphäre der Probanden. 
+## H0: Es existiert kein Zusammenhang zwischen dem subjektiven Sicherheitsempfinden und der Einstellung zur Privatsphäre der Probanden.
 
-cor.test(data = data, ~ age+SICH)
+cor.test(data = data, ~ PRIV+SICH)
 
-# Punktdiagramm Alter und SICH
+# Punktdiagramm PRIV und SICH
 
 ggplot(data = data) +
-  aes(x = age, y = SICH) +
+  aes(x = PRIV, y = SICH) +
   geom_point(color = "#0c4c8a") +
   ylim(1, 6) +
-  labs(title = "Zusammenhang zwischen Alter und subjektiven Sicherheitsempfinden",
-       x = "Alter",
+  labs(title = "Zusammenhang zwischen Einstellung zur Privatsphäre und SICH",
+       x = "Einstellung Privatsphäre",
        y = "subjektives Sicherheitsempfinden [1-6]",
        caption = "n = 273",
-       subtitle = "Punktdiagramm von Alter nach SICH") +
+       subtitle = "Punktdiagramm von PRIV nach SICH") +
   theme_gray()
 
-ggsave("Punktdiagramm_age-SICH.pdf", width = 7, height = 4)
+ggsave("Punktdiagramm_PRIV-SICH.pdf", width = 7, height = 4)
 
-#Ergebnis: Es gibt keinen signifikanten Zusammenhang zwischen dem subjektiven Sicherheitsempfinden und dem Alter der Probanden. H0 wird beibehalten.
+#Ergebnis: Es gibt einen signifikanten sehr schwach positiven Zusammenhang zwischen der Einstellung zur Privatsphäre und dem sujektiven Sicherheitsempfinden der Probanden. H0 wird verworfen.
+
 
 ### Zusammenhangshypothese 2: KUT und Bereitschaft zur langfristigen Datenspeicherung
 ## H1: Es besteht ein Zusammenhang zwischen KUT und der Bereitschaft zur langfristigen Datenspeicherung.
@@ -480,9 +482,25 @@ ggsave("Likert_KUTDSAVE.pdf", width = 8, height = 4)
 
 ### Zusammenhangshypothese 3: Einstellung zur Privatsphäre und Bereitschaft persönliche Daten preiszugeben
 ## H1: Es besteht ein Zusammenhang zwischen der Einstellung zur Privatsphäre und der Bereitschaft persönliche Daten preiszugeben. 
-## H0: Es gibt keinen Zusammenhang zwischen der Einstellung zur Privatsphäre und der Bereiteschaft persönliche Daten preiszugeben. 
+## H0: Es gibt keinen Zusammenhang zwischen der Einstellung zur Privatsphäre und der Bereitschaft persönliche Daten preiszugeben. 
 
 cor.test(data = data, ~PRIV+DPERSO)
+
+# Punktdiagramm Zusammenhangshypothese 2
+
+library(ggplot2)
+
+ggplot(data = data) +
+  aes(x = PRIV, y = DPERSO) +
+  geom_point(color = "#0c4c8a") +
+  labs(title = "Zusammenhang zwischen PRIV und Bereitschaft persönliche Daten preiszugeben",
+       x = "Einstellung zur Privatsphäre [1-6]",
+       y = "Bereitschaft persönliche Daten preiszugeben [1-6]",
+       caption = "n = 273",
+       subtitle = "Punktdiagramm PRIV nach DPERSO") +
+  theme_gray()
+
+ggsave("Punktdiagramm_PRIV-DPERSO.pdf", width = 8, height = 4)
 
 #Likert Skala Zusammenhangshypothese 3
 raw.short$priv1 <- factor(raw.short$priv1, labels = scale.zustimmung2)
@@ -506,7 +524,7 @@ pl
 
 ggsave("Likert_PRIVDPERSO.pdf", width = 8, height = 4)
 
-# Ergebnis: Es gibt keinen Zusammenhang zwischen der Einstellung zur Privatsphäre und der Bereiteschaft persönliche Daten preiszugeben. H0 wird beibehalten.
+# Ergebnis: Es gibt einen signifikanten positiven Zusammenhang zwischen der Einstellung zur Privatsphäre und der Bereitschaft persönliche Daten preiszugeben. H0 wird verworfen.
 
 ## Feedback: Ihr Datensatz heißt gar nicht df_multi ;-)
 # Ob bei dem richtigen Datensatz so funktioniert weiß ich nicht, es kann nämlich sein dass die Methode cor.test() zwischen Groß- und Kleinschreibung unterscheidet. Lieber genau so schreiben wie in den Daten: Groß. 
