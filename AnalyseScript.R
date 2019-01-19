@@ -1,19 +1,3 @@
-<<<<<<< HEAD
-#Analyse Script
-print ("Hier werden Pakete eingebunden")
-
-#Data Cleaning ---
-print ("Hier wird der Datensatz aufbereitet. Thema am 09.11.2018")
-
-#Skalenberechnung ---
-print ("Hier werden später Skalen berechnet. Thema am 09.11.2018")
-
-#Analyse ---
-print ("Hier werden später statistische Analysen durchgeführt. Thema ab dem 16.11.2018")
-
-#Graphik erstellung ---
-print ("Hier werden später Grafiken erstellt. Thema ab dem 16.11.2018")
-=======
 # Analyse Script ----
 
 #install.packages("tidyverse")
@@ -30,6 +14,7 @@ devtools::install_github("HCIC/r-tools")
 library(ggplot2)
 library(lubridate)
 library(tidyverse)
+library(likert)
 
 source("surveymonkey.R")
 
@@ -45,20 +30,19 @@ raw <- load_surveymonkey_csv(filename)
 
 raw.short <- raw[ ,c(-1:-9, -24, -32:-89, -107:-127)]
 
-#View(raw.short)
-
 generate_codebook(raw.short, "codebook.csv")
 
 codebook <- read_codebook("codebook_final.csv")
 
 names(raw.short) <- codebook$variable
 
-# raw.short %>% View()
 
 # Schritt3: Variablen den richtigen Typen zuordnen
 raw.short$gender <- as.factor(raw.short$gender)
 raw.short$job <- as.factor(raw.short$job)
 raw.short$socme <- as.factor(raw.short$socme)
+
+# Skalenbildung ----
 
 scale.education <- c("Hauptschulabschluss",
                      "Realschulabschluss",
@@ -88,8 +72,6 @@ scale.zustimmung2 <- c("stimme gar nicht zu",
                        "stimme völlig zu")
 
 
-
-# kut1-8 = = scale.zustimmung
 raw.short$edu <- ordered(raw.short$edu, levels = scale.education)
 
 raw.short$residence <- ordered(raw.short$residence, levels = scale.residence)
@@ -132,11 +114,9 @@ raw.short$dtype1 <- ordered(raw.short$dtype1, levels = scale.zustimmung2)
 raw.short$dtype2 <- ordered(raw.short$dtype2, levels = scale.zustimmung2)
 raw.short$dtype3 <- ordered(raw.short$dtype3, levels = scale.zustimmung2)
 
-
-#### Skalenbildung ----
 library(psych)
 
-# 1. Schritt: Schlüsselliste > Liste enthält Variablen, die wir berechnen wollen.
+# Schlüsselliste ----
 
 keyslist <- list (KUT= c("kut1", "-kut2", "kut3", "kut4", "-kut5", "kut6", "-kut7", "-kut8"),
                   PRIV = c("priv1", "priv2", "-priv3"),
@@ -145,15 +125,7 @@ keyslist <- list (KUT= c("kut1", "-kut2", "kut3", "kut4", "-kut5", "kut6", "-kut
                   DPERSO = c("dperso1", "-dperso2", "dperso3", "-dperso4", "-dperso5"),
                   DSAVE = c("dsave1", "dsave2", "-dsave3"),
                   DTYPE = c("dtype1", "-dtype2", "dtype3"))
-
-#keyslist.edu <- list(EDU = c("edu"))
-
-#keyslist.residence <- list(RESIDENCE = c("residence"))
                   
-        
-                  
-# Skalenberechnung ----
-#print("Hier werden später Skalen berechnet. Thema am 09.11.2018")
 
 scores <- scoreItems(keyslist, raw.short, missing = TRUE, min = 1, max = 6)
 #scores.edu <- scoreItems (keyslist.edu, raw.short, missing = TRUE, min = 1, max = 5)
@@ -171,11 +143,6 @@ data <- data %>%
   select(-starts_with("dsave", ignore.case = F)) %>%
   select(-starts_with("dtype", ignore.case = F))
 
-library(ggplot2)
-
-
-data
-raw.short
 
 ##### FEEDBACK: Sieht insgesamt schon ganz gut aus, ein paar Kleinigkeiten fehlen aber noch. Rufen Sie an dieser Stelle mal str(data) auf und schauen sich den Inhalt an. edu und residence sind z.B. auch ordinale Variablen, job und socme Faktoren.----
 #str(data)
@@ -277,6 +244,7 @@ data %>%
 
 ggsave ("Geschlecht_Alter_Histogramm.pdf", width = 5, height = 4)
 
+
 ## Unterschiedshypothesen ----
 # Hypothese 1: Es gibt einen geschlechtspezifischen Unterschied bei der Freigabe von personenbezogenen Daten.
 # H0: Es gibt keinen geschlechtsspezifischen Unterschied bei der Freigabe von personenbezogenen Daten.
@@ -327,6 +295,7 @@ ggsave("Likert_DPERSO.pdf", width = 7, height = 4)
 # Ergebnis: Es gibt keinen signifikanten, geschlechtsspezifischen Unterschied bei der Freigabe von personenbezogenen Daten (t(198.92) = 0.23, p = 0.8195). Die Nullhypothese H0 muss angenommen werden.
 ## FEEDBACK: Super! Das funktioniert so. Tipp für später: Da die Hypothese ungerichtet ist, ist es besonders wichtig, dass Sie die Mittelwerte für die einzelnen Gruppen nicht vergessen.
 
+
 # Hypothese 2: Das subjektive Sicherheitsempfinden ist bei kontrolliertem Alterseinfluss abhängig vom Geschlecht.
 # H0: Das subjektive Sicherheitsempfinden ist bei kontrolliertem Alterseinfluss nicht abhängig vom Geschlecht.
 
@@ -334,8 +303,8 @@ library(jmv)
 data %>% filter(gender != "Keine Angabe") %>% 
   ancova(dep = "SICH", factors = c("gender"), covs = "age")
         
-plot1 <- res$emm 
 
+# Punktdiagramm SICH Gender
 data %>% filter(gender != "Keine Angabe") %>% ggplot() + aes(x=gender, y=SICH) + stat_summary() +
   scale_y_continuous(limits=c(1,6)) +
   labs(title = "Geschlechtsspezifischer Unterschied beim subjektiven Sicherheitsempfinden",
@@ -347,6 +316,7 @@ data %>% filter(gender != "Keine Angabe") %>% ggplot() + aes(x=gender, y=SICH) +
 
 ggsave("Punktdiagramm_SICH-Gender.pdf", width = 7, height = 4)
 
+# Likert SICH
 raw.short$sich1 <- factor(raw.short$sich1, labels = scale.zustimmung2)
 raw.short$sich2 <- factor(raw.short$sich2, labels = scale.zustimmung2)
 raw.short$sich3 <- factor(raw.short$sich3, labels = scale.zustimmung2)
@@ -404,9 +374,10 @@ cor.test(data = data, ~ PRIV+SICH)
 ggplot(data = data) +
   aes(x = PRIV, y = SICH) +
   geom_point(color = "#0c4c8a") +
+  xlim(1,6) +
   ylim(1, 6) +
   labs(title = "Zusammenhang zwischen Einstellung zur Privatsphäre und SICH",
-       x = "Einstellung Privatsphäre",
+       x = "Einstellung Privatsphäre [1-6]",
        y = "subjektives Sicherheitsempfinden [1-6]",
        caption = "n = 273",
        subtitle = "Punktdiagramm von PRIV nach SICH") +
@@ -431,6 +402,7 @@ library(ggplot2)
 
 ggplot(data = data) +
   aes(x = KUT, y = DSAVE) +
+  ylim(1, 6) +
   geom_point(color = "#0c4c8a") +
   labs(title = "Zusammenhang zwischen KUT und Bereitschaft zur langfristigen Datenspeicherung",
     x = "Kontrollüberzeugung im Umgang mit Technik [1-6]",
@@ -440,6 +412,40 @@ ggplot(data = data) +
   theme_gray()
 
 ggsave("Punktdiagramm_KUT-DSAVE.pdf", width = 8, height = 4)
+
+# Likert SICH PRIV
+raw.short$priv1 <- factor(raw.short$priv1, labels = scale.zustimmung2)
+raw.short$priv2 <- factor(raw.short$priv2, labels = scale.zustimmung2)
+raw.short$priv3 <- factor(raw.short$priv3, labels = scale.zustimmung2)
+
+raw.short$sich1 <- factor(raw.short$sich1, labels = scale.zustimmung2)
+raw.short$sich2 <- factor(raw.short$sich2, labels = scale.zustimmung2)
+raw.short$sich3 <- factor(raw.short$sich3, labels = scale.zustimmung2)
+raw.short$sich4 <- factor(raw.short$sich4, labels = scale.zustimmung2)
+raw.short$sich5 <- factor(raw.short$sich5, labels = scale.zustimmung2)
+raw.short$sich6 <- factor(raw.short$sich6, labels = scale.zustimmung2)
+
+#colnames(raw.short)[which(names(raw.short) == "priv1")] <- "Sorgenfrei"
+#colnames(raw.short)[which(names(raw.short) == "priv2")] <- "Vertrauen"
+#colnames(raw.short)[which(names(raw.short) == "priv3")] <- "Misstrauen"
+
+#colnames(raw.short)[which(names(raw.short) == "sich1")] <- "Strafttatopfer"
+#colnames(raw.short)[which(names(raw.short) == "sich2")] <- "Vermeidung"
+#colnames(raw.short)[which(names(raw.short) == "sich3")] <- "Sicherheit"
+#colnames(raw.short)[which(names(raw.short) == "sich4")] <- "Polizeipräsenz"
+#colnames(raw.short)[which(names(raw.short) == "sich5")] <- "Agieren"
+#colnames(raw.short)[which(names(raw.short) == "sich6")] <- "Einschränkung"
+
+#pl <- raw.short %>% 
+select(Sorgenfrei, Vertrauen, Misstrauen, Strafttatopfer, Vermeidung, Sicherheit, Polizeipräsenz, Agieren, Einschränkung) %>% 
+  as.data.frame() %>% 
+  likert() %>% 
+  plot() +
+  labs(title = "Likert Diagramm Privatsphäre und subjektives Sicherheitsempfinden", y = "Prozent", x = "PRIV und SICH", fill = "Antwort")
+
+pl
+
+ggsave("Likert_PRIV-SICH.pdf", width = 7, height = 4)
 
 # Likert Skala Zusammenhangshypothese 2
 raw.short$kut1 <- factor(raw.short$kut1, labels = scale.zustimmung)
@@ -492,6 +498,8 @@ library(ggplot2)
 
 ggplot(data = data) +
   aes(x = PRIV, y = DPERSO) +
+  xlim(1,6) + 
+  ylim(1, 6) +
   geom_point(color = "#0c4c8a") +
   labs(title = "Zusammenhang zwischen PRIV und Bereitschaft persönliche Daten preiszugeben",
        x = "Einstellung zur Privatsphäre [1-6]",
@@ -513,8 +521,18 @@ raw.short$dperso3 <- factor(raw.short$dperso3, labels = scale.zustimmung2)
 raw.short$dperso4 <- factor(raw.short$dperso4, labels = scale.zustimmung2)
 raw.short$dperso5 <- factor(raw.short$dperso5, labels = scale.zustimmung2)
 
-pl <- raw.short %>% 
-  select(priv1, priv2, priv3, dperso1, dperso2, dperso3, dperso4, dperso5) %>% 
+#colnames(raw.short)[which(names(raw.short) == "priv1")] <- "Sorgenfrei"
+#colnames(raw.short)[which(names(raw.short) == "priv2")] <- "Vertrauen"
+#colnames(raw.short)[which(names(raw.short) == "priv3")] <- "Misstrauen"
+
+#colnames(raw.short)[which(names(raw.short) == "dperso1")] <- "Polizeiarbeit"
+#colnames(raw.short)[which(names(raw.short) == "dperso2")] <- "Missbrauch"
+#colnames(raw.short)[which(names(raw.short) == "dperso3")] <- "Datenverwendung"
+#colnames(raw.short)[which(names(raw.short) == "dperso4")] <- "Datenkontrolle"
+#colnames(raw.short)[which(names(raw.short) == "dperso5")] <- "Verwendungszweck"
+
+#pl <- raw.short %>% 
+  select(Sorgenfrei, Vertrauen, Misstrauen, Polizeiarbeit, Missbrauch, Datenverwendung, Datenkontrolle, Verwendungszweck) %>% 
   as.data.frame() %>% 
   likert() %>% 
   plot() +
@@ -531,4 +549,4 @@ ggsave("Likert_PRIVDPERSO.pdf", width = 8, height = 4)
 # Warum wird bei H3 die round()-Methode benutzt? Und warum kendall-tau? Das muss beides nicht falsch sein, aber mir ist gerade nicht klar, warum Sie sich entschieden haben das so zu machen. 
 
 
->>>>>>> da9aa519a82291f532ae1fca6a19dc4765f01b2c
+
