@@ -166,9 +166,9 @@ mean(data$age)
 sd(data$age)
 # mit einer Standardabweichung von 13.6
 median(data$age)
-
 # 24 Jahre
 
+#table(data$edu)
 #qplot(data$age, binwidth = 1) + xlab ("Alter")
 library(ggplot2)
 
