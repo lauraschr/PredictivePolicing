@@ -262,7 +262,7 @@ ggplot() +
   labs(title = "Geschlechtsspezifischer Unterschied bei der Freigabe personenbezogener Daten",
        x = "Geschlecht",
        y = "Freigabe personenbezogener Daten [1-6]",
-       caption = "n = 273, Punkte zeigen Ausreißer",
+       caption = "n = 272, Punkte zeigen Ausreißer",
        subtitle = "Boxplot des Geschlecht nach Freigabe personenbezogener Daten") +
   theme_gray()
 
@@ -310,7 +310,7 @@ data %>% filter(gender != "Keine Angabe") %>% ggplot() + aes(x=gender, y=SICH) +
   labs(title = "Geschlechtsspezifischer Unterschied beim subjektiven Sicherheitsempfinden",
        x = "Geschlecht",
        y = "subjektives Sicherheitsempfinden [1-6]",
-       caption = "n = 273, Fehlerbalken zeigt Standardfehler",
+       caption = "n = 272, Fehlerbalken zeigt Standardfehler",
        subtitle = "Punktdiagramm von Geschlecht nach Sicherheitsempfinden") +
   theme_gray()
 
