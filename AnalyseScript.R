@@ -172,7 +172,7 @@ median(data$age)
 #qplot(data$age, binwidth = 1) + xlab ("Alter")
 library(ggplot2)
 
-# Histogramm des Alters der Probanden unserer Stichprobe 
+# Histogramm des Alters der Probanden unserer Stichprobe (für Präsentation)
 ggplot(data = data) +
   aes(x = age) +
   geom_histogram(bins = 30, fill = '#0c4c8a') +
@@ -186,7 +186,46 @@ NULL
 
 ggsave("Alter_Histrogramm.pdf", width = 4, height = 4)
 
-# Histogramm des Alters nach Geschlecht und Bildungsstand
+# Säulendiagramm des Bildungsstands (für Präsentation)
+
+library(ggplot2)
+data %>% 
+  filter(edu != "Keine Angabe") %>%
+  ggplot() +
+  aes(x = edu) +
+  geom_bar(fill = '#0c4c8a') +
+  labs(title = 'Bildungsstand der Teilnehmer der Stichprobe',
+    x = 'Bildungsstand',
+    y = 'Häufigkeit (absolute)',
+    subtitle = 'Säulendiagramm des Bildungsstands',
+    caption = 'n = 267') + 
+  theme_gray() +
+  coord_flip() +
+NULL
+
+ggsave ("Bildungsstand_Säulendiagramm.pdf", width = 10, height = 6) 
+
+View(data)
+
+# 2. Alternative: Säulendiagramm des Bildungsstands
+library(ggplot2)
+
+data %>% 
+  filter(edu != "Keine Angabe") %>% 
+  ggplot() +
+  aes(x = edu) +
+  geom_bar(fill = '#0c4c8a', position = 'dodge') +
+  labs(title = 'Studentische Stichprobe',
+    x = 'Bildungsstand',
+    y = 'Häufigkeit (absolute)',
+    subtitle = 'Histogramm des Bildungsstands') +
+  theme_gray() +
+NULL
+
+ggsave ("Bildung_Histogramm.pdf", width = 17, height = 8)
+
+
+# 3. Alternative: Histogramm des Alters nach Geschlecht und Bildungsstand
 
 library(ggplot2)
 
@@ -202,13 +241,14 @@ data %>%
     y = 'Häufigkeit (absolute)',
     fill = "Bildungsstand",library(ggplot2),
     subtitle = 'Histogramm des Alters nach Geschlecht und Bildungsstand') +
+    caption = 'n = 272'
   theme_gray() +
   facet_wrap(vars(gender)) +
 NULL
 
 ggsave ("Bildungsstand_Histogramm.pdf", width = 12, height = 7)
 
-# Historgram des Geschlechts 
+# Historgram des Geschlechts (für Präsentation)
 
 rwthcolor <- hcictools:: rwth.colorpalette()
 library(ggplot2)
@@ -219,16 +259,19 @@ data %>%
   aes(x = gender, fill = gender) +
   scale_fill_manual(values = c(rwthcolor$blue, rwthcolor$red)) +
   geom_bar() +
-  labs(title = 'Histogramm des Geschlechts',
+  labs(title = "Das Geschlecht der Teilnehmer der Stichprobe",
+    subtitle = 'Säulendiagramm des Geschlechts',
     x = 'Geschlecht',
     y = 'Häufigkeit (absolute)',
     fill = 'Geschlecht',
     caption = 'n = 272') +
-  theme_gray()
+  theme_gray() +
+NULL
 
-ggsave ("Geschlecht_Histrogramm.pdf", width = 5, height = 4)
+ggsave ("Geschlecht_Säulendiagramm.pdf", width = 5, height = 4)
 
-# Boxplot des Geschlechts nach Alter 
+# Alternative: Boxplot des Geschlechts nach Alter 
+
 data %>% 
   filter(gender != "Keine Angabe") %>% 
   ggplot() +
