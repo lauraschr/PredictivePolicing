@@ -21,6 +21,11 @@ Stand: 08.01.2019
 
 3. Es gibt einen geschlechtsspezifischen Unterschied hinsichtlich der Einstellung zur Dauer der Datenspeicherung unter dem kontrollierten Einfluss des KUT.
 
+Ergebnisse:
+- Bei Hypothese 1 besteht kein statistisch signifikanter Unterschied.
+- Bei Hypothese 2 besteht ein signifikanter Einfluss des Geschlechts auf das subjektive Sicherheitsempfinden. Das Alter hat keinen signifikanten Einfluss.
+- Bei Hypothese 3 besteht kein statistisch signifikanter Unterschied des Geschlechts und dem Einfluss des KUT auf die Einstellung zur Dauer der Datenspeicherung. 
+
 ## Zusammenhangshypothesen
 Stand: 19.01.2019
 
