@@ -168,7 +168,10 @@ sd(data$age)
 median(data$age)
 # 24 Jahre
 
-#table(data$edu)
+table(data$edu)
+max(table(data$edu))
+# 105 Studienabschluss
+
 #qplot(data$age, binwidth = 1) + xlab ("Alter")
 library(ggplot2)
 
