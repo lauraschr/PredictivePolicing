@@ -13,7 +13,7 @@
 
 
 ## Unterschiedshypothesen
-Stand: 08.01.2019
+Stand: 19.01.2019
 
 1. Es gibt einen geschlechtspezifischen Unterschied bei der Freigabe von personenbezogenen Daten.
 
