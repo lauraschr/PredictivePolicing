@@ -66,6 +66,7 @@ Definition: "Die Wahrscheinlichkeit des beobachteten Ergebnisses, wenn die Nullh
 
 Am 19.01.2019 wurde diese Version aus folgenden Gründen angepasst:
 - Anpassung Hypothesen, da Dopplung
+- Faktorenraum neue Version
 
 Am 08.01.2019 wurde diese Version aus folgenden Gründen angepasst:
 - Einarbeitung des Feedbacks zu den Hypothesen
