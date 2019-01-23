@@ -9,7 +9,7 @@
 
 ## Faktorenraum
 
-![tooltip](PredictivePolicing/images/Faktorenraum_aktualisiert.png)
+![tooltip](images/PredictivePolicing/images/Faktorenraum_aktualisiert.png)
 
 
 ## Unterschiedshypothesen
